@@ -1,12 +1,12 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { View, Text } from 'react-native'
+import React from 'react'
 
-const index: React.FC = () => {
+const index = () => {
   return (
     <View>
-      <Text>hello world</Text>
+      <Text className='text-center'>Testing</Text>
     </View>
-  );
-};
+  )
+}
 
-export default index;
+export default index
