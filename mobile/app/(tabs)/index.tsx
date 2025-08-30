@@ -1,13 +1,38 @@
 import { View, Text, ScrollView } from "react-native";
 import React from "react";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const index: React.FC = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View className="h-[100vh] flex items-center justify-center p-0 m-0">
-        <View className=" flex items-center justify-center bg-white p-10 w-[90%] rounded-2xl shadow-xl">
-            <Text className="text-6xl font-semibold mb-4">Welcome</Text>
-            <Text className="text-center">To be a human is to be resilient, to fall and to rise again, carrying the strength of your journey.</Text>
+      <View className="p-6 px-4 pt-14 w-full">
+        <View className="flex flex-row items-center justify-between mb-6">
+          <View className="flex flex-col justify-center">
+            <Text className="text-3xl font-semibold">Dashboard</Text>
+            <Text className="text-lg">Welcome back ,Yugi!</Text>
+          </View>
+          <View>
+            <Ionicons name="notifications" color="#000" size={36} />
+          </View>
+        </View>
+        <View className="flex flex-row items-center justify-around w-full">
+          <View className="w-[32%] flex flex-col gap-2 items-center justify-center bg-white p-3 rounded-2xl">
+            <MaterialIcons name="library-books" size={36} color="green" />
+            <Text className="text-2xl font-semibold">2</Text>
+            <Text className="text-md">Companies</Text>
+          </View>
+          <View className="w-[32%] flex flex-col gap-2 items-center justify-center bg-white p-3 rounded-2xl">
+            <FontAwesome name="users" size={32} color="blue" />
+            <Text  className="text-2xl font-semibold">4</Text>
+            <Text className="text-md">Placed</Text>
+          </View>
+          <View className="w-[32%] flex flex-col gap-2 items-center justify-center bg-white p-3 rounded-2xl">
+            <MaterialIcons name="money" color="orange" size={36} />
+            <Text  className="text-2xl font-semibold">4.5</Text>
+            <Text className="text-md">Avg Package</Text>
+          </View>
         </View>
       </View>
     </ScrollView>
