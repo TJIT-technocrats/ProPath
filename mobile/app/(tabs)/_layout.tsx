@@ -2,15 +2,18 @@ import React from "react";
 import { Tabs } from "expo-router";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const NavLayout: React.FC = () => {
   return (
     <Tabs
       screenOptions={{
-        // tabBarShowLabel: false,
+        tabBarShowLabel: false,
         tabBarStyle: {
-          paddingBottom: 5,
+          paddingBottom: 3,
           paddingTop: 5,
+          height: 80,
+          width: "100%",
         },
       }}
     >
@@ -18,8 +21,8 @@ const NavLayout: React.FC = () => {
         name="index"
         options={{
           headerShown: false,
-          tabBarIcon: ({ focused, color, size = 40 }) => (
-            <Ionicons name="home" color={color} size={size} />
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons name="home" color={color} size={31} />
           ),
         }}
       />
@@ -27,8 +30,8 @@ const NavLayout: React.FC = () => {
         name="PlacementInfo"
         options={{
           headerShown: false,
-          tabBarIcon: ({ focused, color, size = 40 }) => (
-            <MaterialIcons name="library-books" color={color} size={size} />
+          tabBarIcon: ({ focused, color }) => (
+            <MaterialIcons name="library-books" color={color} size={31} />
           ),
         }}
       />
@@ -36,8 +39,8 @@ const NavLayout: React.FC = () => {
         name="Profile"
         options={{
           headerShown: false,
-          tabBarIcon: ({ focused, color, size = 40 }) => (
-            <Ionicons name="person-circle-sharp" color={color} size={30} />
+          tabBarIcon: ({ focused, color }) => (
+            <FontAwesome name="user" color={color} size={31} />
           ),
         }}
       />

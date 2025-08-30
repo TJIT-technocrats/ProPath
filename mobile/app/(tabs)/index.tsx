@@ -25,12 +25,12 @@ const index: React.FC = () => {
           </View>
           <View className="w-[32%] flex flex-col gap-2 items-center justify-center bg-white p-3 rounded-2xl">
             <FontAwesome name="users" size={32} color="blue" />
-            <Text  className="text-2xl font-semibold">4</Text>
+            <Text className="text-2xl font-semibold">4</Text>
             <Text className="text-md">Placed</Text>
           </View>
           <View className="w-[32%] flex flex-col gap-2 items-center justify-center bg-white p-3 rounded-2xl">
             <MaterialIcons name="money" color="orange" size={36} />
-            <Text  className="text-2xl font-semibold">4.5</Text>
+            <Text className="text-2xl font-semibold">4.5</Text>
             <Text className="text-md">Avg Package</Text>
           </View>
         </View>
