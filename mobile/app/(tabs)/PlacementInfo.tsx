@@ -4,7 +4,7 @@ import React from "react";
 const PlacementInfo: React.FC = () => {
   return (
     <View>
-      <Text>PlacementInfo</Text>
+      <Text>PlacementInfos</Text>
     </View>
   );
 };
