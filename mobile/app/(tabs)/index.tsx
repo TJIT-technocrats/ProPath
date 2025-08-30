@@ -1,12 +1,14 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, ScrollView } from "react-native";
+import React from "react";
 
-const index = () => {
+const index: React.FC = () => {
   return (
-    <View>
-      <Text className='text-center'>Testing</Text>
-    </View>
-  )
-}
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View className="h-[100vh] flex items-center justify-center">
+        <Text className="text-center text-6xl ">Your Future, Our Priority</Text>
+      </View>
+    </ScrollView>
+  );
+};
 
-export default index
+export default index;
