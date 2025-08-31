@@ -1,11 +1,20 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
+import Companies from "@/components/companies";
 import React from "react";
 
 const PlacementInfo: React.FC = () => {
   return (
-    <View className="flex items-center justify-center h-[100vh]">
-      <Text className="text-3xl">Placement Info</Text>
-    </View>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <View className="p-6 px-4 pt-14 w-full">
+        <View className="flex flex-row items-center justify-between mb-6">
+          <View className="flex flex-col justify-center">
+            <Text className="text-3xl font-semibold ">Placement Drive</Text>
+            <Text className="text-lg shadow-black">5 companies visiting</Text>
+          </View>
+        </View>
+        <Companies />
+      </View>
+    </ScrollView>
   );
 };
 
