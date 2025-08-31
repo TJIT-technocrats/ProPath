@@ -12,15 +12,15 @@ const UpcomingPlacements = () => {
         router.push("/CompanyDetails");
       }}
     >
-      <View>
+      <View className="flex flex-col justify-center gap-1">
         <Text className="text-xl font-semibold">Dhee Coding Labs</Text>
         <Text className="text-gray-500">Interns</Text>
       </View>
       <View className="items-end">
         <Text className="text-xl font-semibold text-green-500 mb-1">4-12 LPA</Text>
         <View className="flex flex-row items-center">
-          <Ionicons name="calendar-outline" size={20} color="gray" />
-          <Text className="text-gray-500 ml-1">September 2, 2024</Text>
+          <Ionicons name="calendar-outline" size={16} color="gray" />
+          <Text className="text-gray-500 ml-1">Sept 2</Text>
         </View>
       </View>
     </Pressable>
