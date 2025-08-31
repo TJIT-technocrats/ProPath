@@ -4,6 +4,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Link, useRouter } from "expo-router";
+import UpcomingPlacements from "@/components/UpcomingPlacements";
 
 const index: React.FC = () => {
   const router = useRouter();
@@ -46,23 +47,7 @@ const index: React.FC = () => {
               View All
             </Link>
           </View>
-          <Pressable
-            className="mt-6 flex flex-row items-center justify-between bg-white py-4 px-8 rounded-xl"
-            onPress={() => {
-              router.push("/(companyDetails)/CompanyDetails");
-            }}
-          >
-            <View>
-              <Text className="text-xl font-semibold">Dhee Coding Labs</Text>
-              <Text className="text-gray-500">Interns</Text>
-            </View>
-            <View>
-              <Text className="text-xl font-semibold text-green-500">
-                4-12 LPA
-              </Text>
-              <Text className="text-gray-500">September 2</Text>
-            </View>
-          </Pressable>
+          <UpcomingPlacements />
         </View>
       </View>
     </ScrollView>
