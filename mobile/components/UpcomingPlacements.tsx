@@ -8,7 +8,7 @@ const UpcomingPlacements = () => {
     <Pressable
       className="mt-6 flex flex-row items-center justify-between bg-white py-4 px-8 rounded-xl"
       onPress={() => {
-        router.push("/(companyDetails)/CompanyDetails");
+        router.push("/CompanyDetails");
       }}
     >
       <View>
