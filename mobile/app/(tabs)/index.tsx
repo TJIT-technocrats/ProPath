@@ -1,13 +1,12 @@
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 import UpcomingPlacements from "@/components/UpcomingPlacements";
 
 const index: React.FC = () => {
-  const router = useRouter();
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View className="p-6 px-4 pt-14 w-full">
