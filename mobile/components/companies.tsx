@@ -4,8 +4,8 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  StyleSheet,
   TextInput,
+  Modal,
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -21,168 +21,232 @@ type Company = {
 };
 
 const companiesData: Company[] = [
-  { id: 1, name: "Google", role: "Software Engineer", salary: "₹25 LPA", lastDate: "March 15, 2024", location: "Bangalore", cgpa: "7.5+ CGPA", status: "Open" },
-  { id: 2, name: "Microsoft", role: "Product Manager", salary: "₹22 LPA", lastDate: "March 18, 2024", location: "Hyderabad", cgpa: "7.0+ CGPA", status: "Open" },
-  { id: 3, name: "Apple", role: "UI/UX Designer", salary: "₹20 LPA", lastDate: "March 20, 2024", location: "Pune", cgpa: "7.0+ CGPA", status: "Open" },
-  { id: 4, name: "Amazon", role: "Data Analyst", salary: "₹18 LPA", lastDate: "March 22, 2024", location: "Chennai", cgpa: "6.5+ CGPA", status: "Open" },
-  { id: 5, name: "Meta", role: "Research Scientist", salary: "₹28 LPA", lastDate: "March 25, 2024", location: "Mumbai", cgpa: "8.0+ CGPA", status: "Open" },
+  {
+    id: 1,
+    name: "Google",
+    role: "Software Engineer",
+    salary: "₹25 LPA",
+    lastDate: "March 15, 2024",
+    location: "Bangalore",
+    cgpa: "7.5+ CGPA",
+    status: "Open",
+  },
+  {
+    id: 2,
+    name: "Microsoft",
+    role: "Product Manager",
+    salary: "₹22 LPA",
+    lastDate: "March 18, 2024",
+    location: "Hyderabad",
+    cgpa: "7.0+ CGPA",
+    status: "Open",
+  },
+  {
+    id: 3,
+    name: "Apple",
+    role: "UI/UX Designer",
+    salary: "₹20 LPA",
+    lastDate: "March 20, 2024",
+    location: "Pune",
+    cgpa: "7.0+ CGPA",
+    status: "Open",
+  },
+  {
+    id: 4,
+    name: "Amazon",
+    role: "Data Analyst",
+    salary: "₹18 LPA",
+    lastDate: "March 22, 2024",
+    location: "Chennai",
+    cgpa: "6.5+ CGPA",
+    status: "Open",
+  },
+  {
+    id: 5,
+    name: "Meta",
+    role: "Research Scientist",
+    salary: "₹28 LPA",
+    lastDate: "March 25, 2024",
+    location: "Mumbai",
+    cgpa: "8.0+ CGPA",
+    status: "Open",
+  },
 ];
 
-const CompanyCard = ({ company }: { company: Company }) => {
+const CompanyCard = ({
+  company,
+  index,
+}: {
+  company: Company;
+  index: number;
+}) => {
   return (
-    <TouchableOpacity style={styles.card}>
-      <View style={styles.row}>
-        <View style={styles.logo}>
-          <MaterialCommunityIcons name="briefcase" size={28} color="#6366f1" />
+    <View>
+      <TouchableOpacity className="bg-white p-4 my-2 rounded-2xl shadow-lg">
+        <View className="flex-row items-start">
+          <View className="w-12 h-12 rounded-xl bg-indigo-100 items-center justify-center mr-3">
+            <MaterialCommunityIcons
+              name="briefcase"
+              size={28}
+              color="#6366f1"
+            />
+          </View>
+          <View className="flex-1">
+            <Text className="text-lg font-bold text-gray-800">
+              {company.name}
+            </Text>
+            <Text className="text-base text-gray-600 mb-2">{company.role}</Text>
+            <View className="flex-row items-center mb-1">
+              <Ionicons name="cash-outline" size={16} color="#34D399" />
+              <Text className="text-base font-semibold text-green-600 ml-2">
+                {company.salary}
+              </Text>
+            </View>
+            <View className="flex-row items-center mb-1">
+              <Ionicons name="calendar-outline" size={16} color="#6B7280" />
+              <Text className="text-sm text-gray-600 ml-2">
+                {company.lastDate}
+              </Text>
+            </View>
+            <View className="flex-row items-center mb-1">
+              <Ionicons name="location-outline" size={16} color="#6B7280" />
+              <Text className="text-sm text-gray-600 ml-2">
+                {company.location}
+              </Text>
+            </View>
+            <View className="flex-row items-center">
+              <Ionicons name="school-outline" size={16} color="#6B7280" />
+              <Text className="text-sm text-gray-600 ml-2">{company.cgpa}</Text>
+            </View>
+          </View>
+          <View
+            className={`px-3 py-1 rounded-lg ${company.status === "Open" ? "bg-green-100" : "bg-red-100"}`}
+          >
+            <Text
+              className={`text-sm font-semibold ${company.status === "Open" ? "text-green-600" : "text-red-600"}`}
+            >
+              {company.status}
+            </Text>
+          </View>
         </View>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.name}>{company.name}</Text>
-          <Text style={styles.role}>{company.role}</Text>
-          <View style={styles.infoRow}>
-            <Ionicons name="cash-outline" size={16} color="green" />
-            <Text style={styles.salary}>{company.salary}</Text>
-          </View>
-          <View style={styles.infoRow}>
-            <Ionicons name="calendar-outline" size={16} color="gray" />
-            <Text style={styles.detail}>{company.lastDate}</Text>
-          </View>
-          <View style={styles.infoRow}>
-            <Ionicons name="location-outline" size={16} color="gray" />
-            <Text style={styles.detail}>{company.location}</Text>
-          </View>
-          <View style={styles.infoRow}>
-            <Ionicons name="school-outline" size={16} color="gray" />
-            <Text style={styles.detail}>{company.cgpa}</Text>
-          </View>
-        </View>
-        <Text style={styles.status}>{company.status}</Text>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 export default function Companies() {
   const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState<"name" | "salary" | "lastDate">("name");
+  const [filterModalVisible, setFilterModalVisible] = useState(false);
 
-  const filteredCompanies = companiesData.filter(
-    (company) =>
-      company.name.toLowerCase().includes(search.toLowerCase()) ||
-      company.role.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredCompanies = companiesData
+    .filter(
+      (company) =>
+        company.name.toLowerCase().includes(search.toLowerCase()) ||
+        company.role.toLowerCase().includes(search.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortBy === "name") return a.name.localeCompare(b.name);
+      if (sortBy === "salary") {
+        const salaryA = parseFloat(
+          a.salary.replace("₹", "").replace(" LPA", "")
+        );
+        const salaryB = parseFloat(
+          b.salary.replace("₹", "").replace(" LPA", "")
+        );
+        return salaryB - salaryA;
+      }
+      if (sortBy === "lastDate")
+        return new Date(a.lastDate).getTime() - new Date(b.lastDate).getTime();
+      return 0;
+    });
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="gray" style={{ marginRight: 8 }} />
-        <TextInput
-          style={styles.search}
-          placeholder="Search companies or roles..."
-          placeholderTextColor="gray"
-          value={search}
-          onChangeText={setSearch}
-        />
+    <View className="flex-1 p-4 bg-gray-100">
+      {/* Search and Sort */}
+      <View className="flex-row items-center justify-between mb-4">
+        <View className="flex-1 mr-2">
+          <View className="flex-row items-center bg-white rounded-full p-3 shadow-md">
+            <Ionicons name="search" size={24} color="#6B7280" />
+            <TextInput
+              placeholder="Search companies or roles..."
+              className="ml-2 flex-1 text-base text-gray-700"
+              value={search}
+              onChangeText={setSearch}
+            />
+          </View>
+        </View>
+        <TouchableOpacity
+          className="bg-blue-500 p-3 rounded-full shadow-md"
+          onPress={() => setFilterModalVisible(true)}
+        >
+          <Ionicons name="filter" size={24} color="white" />
+        </TouchableOpacity>
       </View>
+
+      {/* Filter Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={filterModalVisible}
+        onRequestClose={() => setFilterModalVisible(false)}
+      >
+        <View className="flex-1 justify-end bg-black/50">
+          <View className="bg-white p-6 rounded-t-3xl">
+            <Text className="text-xl font-bold text-gray-800 mb-4">
+              Sort By
+            </Text>
+            <TouchableOpacity
+              className="py-3"
+              onPress={() => {
+                setSortBy("name");
+                setFilterModalVisible(false);
+              }}
+            >
+              <Text className="text-base text-gray-700">Company Name</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="py-3"
+              onPress={() => {
+                setSortBy("salary");
+                setFilterModalVisible(false);
+              }}
+            >
+              <Text className="text-base text-gray-700">Salary</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="py-3"
+              onPress={() => {
+                setSortBy("lastDate");
+                setFilterModalVisible(false);
+              }}
+            >
+              <Text className="text-base text-gray-700">Last Date</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="py-3"
+              onPress={() => setFilterModalVisible(false)}
+            >
+              <Text className="text-base text-blue-600 font-semibold">
+                Close
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Companies List */}
       <ScrollView showsVerticalScrollIndicator={false}>
         {filteredCompanies.length > 0 ? (
-          filteredCompanies.map((company) => (
-            <CompanyCard key={company.id} company={company} />
+          filteredCompanies.map((company, index) => (
+            <CompanyCard key={company.id} company={company} index={index} />
           ))
         ) : (
-          <Text style={styles.noResults}>No companies found</Text>
+          <Text className="text-base text-gray-600 text-center mt-6">
+            No companies found
+          </Text>
         )}
       </ScrollView>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  heading: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#1f2937",
-  },
-  subheading: {
-    fontSize: 16,
-    color: "gray",
-    marginBottom: 12,
-  },
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 12,
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: "#d1d5db", // light border for visibility
-  },
-  search: {
-    flex: 1,
-    fontSize: 16,
-    color: "#000",
-  },
-  card: {
-    backgroundColor: "#fff",
-    padding: 16,
-    marginVertical: 8,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 2,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-  },
-  logo: {
-    width: 50,
-    height: 50,
-    borderRadius: 12,
-    backgroundColor: "#e0e7ff",
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 12,
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  role: {
-    fontSize: 15,
-    color: "gray",
-    marginBottom: 6,
-  },
-  infoRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 2,
-  },
-  salary: {
-    fontSize: 15,
-    fontWeight: "600",
-    color: "green",
-    marginLeft: 6,
-  },
-  detail: {
-    fontSize: 14,
-    color: "gray",
-    marginLeft: 6,
-  },
-  status: {
-    backgroundColor: "#d1fae5",
-    color: "#059669",
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
-    fontWeight: "600",
-    alignSelf: "flex-start",
-  },
-  noResults: {
-    fontSize: 16,
-    color: "gray",
-    textAlign: "center",
-    marginTop: 20,
-  },
-});
