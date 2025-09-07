@@ -17,7 +17,7 @@ const Profile: React.FC = () => {
 
   return (
     <ScrollView
-      className="flex-1 bg-gray-100 p-6 pt-9"
+      className="flex-1 bg-gray-100 p-6"
       showsVerticalScrollIndicator={false}
     >
       <View className="items-center mb-8 mt-6">

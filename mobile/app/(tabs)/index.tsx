@@ -9,7 +9,7 @@ import UpcomingPlacements from "@/components/UpcomingPlacements";
 const index: React.FC = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} className="bg-gray-100">
-      <View className="p-6 pt-16 w-full">
+      <View className="p-6 w-full">
         <View className="flex flex-row items-center justify-between mb-6">
           <View className="flex flex-col justify-center">
             <Text className="text-4xl font-bold text-gray-800">Dashboard</Text>

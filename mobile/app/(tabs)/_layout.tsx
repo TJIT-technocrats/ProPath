@@ -12,7 +12,7 @@ const NavLayout: React.FC = () => {
         tabBarStyle: {
           paddingBottom: 3,
           paddingTop: 5,
-          height: 80,
+          height: 55,
           width: "100%",
         },
       }}
