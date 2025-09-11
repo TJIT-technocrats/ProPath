@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,147 +6,121 @@ import {
   ScrollView,
   TextInput,
   Modal,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { supabase } from "@/lib/supabaseClient"; // adjust path
+import { useRouter } from "expo-router";
 
 type Company = {
   id: number;
-  name: string;
-  role: string;
+  company_name: string;
+  type: string;
   salary: string;
-  lastDate: string;
+  last_date: string;
   location: string;
-  cgpa: string;
+  cgpa_required: string;
   status: string;
 };
 
-const companiesData: Company[] = [
-  {
-    id: 1,
-    name: "Google",
-    role: "Software Engineer",
-    salary: "₹25 LPA",
-    lastDate: "March 15, 2024",
-    location: "Bangalore",
-    cgpa: "7.5+ CGPA",
-    status: "Open",
-  },
-  {
-    id: 2,
-    name: "Microsoft",
-    role: "Product Manager",
-    salary: "₹22 LPA",
-    lastDate: "March 18, 2024",
-    location: "Hyderabad",
-    cgpa: "7.0+ CGPA",
-    status: "Open",
-  },
-  {
-    id: 3,
-    name: "Apple",
-    role: "UI/UX Designer",
-    salary: "₹20 LPA",
-    lastDate: "March 20, 2024",
-    location: "Pune",
-    cgpa: "7.0+ CGPA",
-    status: "Open",
-  },
-  {
-    id: 4,
-    name: "Amazon",
-    role: "Data Analyst",
-    salary: "₹18 LPA",
-    lastDate: "March 22, 2024",
-    location: "Chennai",
-    cgpa: "6.5+ CGPA",
-    status: "Open",
-  },
-  {
-    id: 5,
-    name: "Meta",
-    role: "Research Scientist",
-    salary: "₹28 LPA",
-    lastDate: "March 25, 2024",
-    location: "Mumbai",
-    cgpa: "8.0+ CGPA",
-    status: "Open",
-  },
-];
-
-const CompanyCard = ({
-  company,
-  index,
-}: {
-  company: Company;
-  index: number;
-}) => {
+const CompanyCard = ({ company }: { company: Company }) => {
+  const router = useRouter();
   return (
-    <View>
-      <TouchableOpacity className="bg-white p-4 my-2 rounded-2xl shadow-lg">
-        <View className="flex-row items-start">
-          <View className="w-12 h-12 rounded-xl bg-indigo-100 items-center justify-center mr-3">
-            <MaterialCommunityIcons
-              name="briefcase"
-              size={28}
-              color="#6366f1"
-            />
-          </View>
-          <View className="flex-1">
-            <Text className="text-lg font-bold text-gray-800">
-              {company.name}
+    <TouchableOpacity
+      className="bg-white p-4 my-2 rounded-2xl shadow-lg"
+      onPress={() =>
+        router.push({
+          pathname: "/CompanyDetails",
+          params: { id: company.id.toString() }, // pass id
+        })
+      }
+    >
+      <View className="flex-row items-start">
+        <View className="w-12 h-12 rounded-xl bg-indigo-100 items-center justify-center mr-3">
+          <MaterialCommunityIcons name="briefcase" size={28} color="#6366f1" />
+        </View>
+        <View className="flex-1">
+          <Text className="text-lg font-bold text-gray-800">
+            {company.company_name}
+          </Text>
+          <Text className="text-base text-gray-600 mb-2">{company.type}</Text>
+          <View className="flex-row items-center mb-1">
+            <Ionicons name="cash-outline" size={16} color="#34D399" />
+            <Text className="text-base font-semibold text-green-600 ml-2">
+              {company.salary}
             </Text>
-            <Text className="text-base text-gray-600 mb-2">{company.role}</Text>
-            <View className="flex-row items-center mb-1">
-              <Ionicons name="cash-outline" size={16} color="#34D399" />
-              <Text className="text-base font-semibold text-green-600 ml-2">
-                {company.salary}
-              </Text>
-            </View>
-            <View className="flex-row items-center mb-1">
-              <Ionicons name="calendar-outline" size={16} color="#6B7280" />
-              <Text className="text-sm text-gray-600 ml-2">
-                {company.lastDate}
-              </Text>
-            </View>
-            <View className="flex-row items-center mb-1">
-              <Ionicons name="location-outline" size={16} color="#6B7280" />
-              <Text className="text-sm text-gray-600 ml-2">
-                {company.location}
-              </Text>
-            </View>
-            <View className="flex-row items-center">
-              <Ionicons name="school-outline" size={16} color="#6B7280" />
-              <Text className="text-sm text-gray-600 ml-2">{company.cgpa}</Text>
-            </View>
           </View>
-          <View
-            className={`px-3 py-1 rounded-lg ${company.status === "Open" ? "bg-green-100" : "bg-red-100"}`}
-          >
-            <Text
-              className={`text-sm font-semibold ${company.status === "Open" ? "text-green-600" : "text-red-600"}`}
-            >
-              {company.status}
+          <View className="flex-row items-center mb-1">
+            <Ionicons name="calendar-outline" size={16} color="#6B7280" />
+            <Text className="text-sm text-gray-600 ml-2">
+              {company.last_date}
+            </Text>
+          </View>
+          <View className="flex-row items-center mb-1">
+            <Ionicons name="location-outline" size={16} color="#6B7280" />
+            <Text className="text-sm text-gray-600 ml-2">
+              {company.location}
+            </Text>
+          </View>
+          <View className="flex-row items-center">
+            <Ionicons name="school-outline" size={16} color="#6B7280" />
+            <Text className="text-sm text-gray-600 ml-2">
+              {company.cgpa_required}
             </Text>
           </View>
         </View>
-      </TouchableOpacity>
-    </View>
+        <View
+          className={`px-3 py-1 rounded-lg ${
+            company.status === "Open" ? "bg-green-100" : "bg-red-100"
+          }`}
+        >
+          <Text
+            className={`text-sm font-semibold ${
+              company.status === "Open" ? "text-green-600" : "text-red-600"
+            }`}
+          >
+            {company.status}
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
 export default function Companies() {
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState<"name" | "salary" | "lastDate">("name");
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState<"company_name" | "salary" | "last_date">(
+    "company_name"
+  );
   const [filterModalVisible, setFilterModalVisible] = useState(false);
 
-  const filteredCompanies = companiesData
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      const { data, error } = await supabase
+        .from("company_details")
+        .select(
+          "id, company_name, type, salary, last_date, location, cgpa_required, status"
+        );
+
+      if (error) console.error(error);
+      else setCompanies(data as Company[]);
+      setLoading(false);
+    };
+
+    fetchCompanies();
+  }, []);
+
+  const filteredCompanies = companies
     .filter(
       (company) =>
-        company.name.toLowerCase().includes(search.toLowerCase()) ||
-        company.role.toLowerCase().includes(search.toLowerCase())
+        company.company_name.toLowerCase().includes(search.toLowerCase()) ||
+        company.type.toLowerCase().includes(search.toLowerCase())
     )
     .sort((a, b) => {
-      if (sortBy === "name") return a.name.localeCompare(b.name);
+      if (sortBy === "company_name")
+        return a.company_name.localeCompare(b.company_name);
       if (sortBy === "salary") {
         const salaryA = parseFloat(
           a.salary.replace("₹", "").replace(" LPA", "")
@@ -156,8 +130,10 @@ export default function Companies() {
         );
         return salaryB - salaryA;
       }
-      if (sortBy === "lastDate")
-        return new Date(a.lastDate).getTime() - new Date(b.lastDate).getTime();
+      if (sortBy === "last_date")
+        return (
+          new Date(a.last_date).getTime() - new Date(b.last_date).getTime()
+        );
       return 0;
     });
 
@@ -199,7 +175,7 @@ export default function Companies() {
             <TouchableOpacity
               className="py-3"
               onPress={() => {
-                setSortBy("name");
+                setSortBy("company_name");
                 setFilterModalVisible(false);
               }}
             >
@@ -217,7 +193,7 @@ export default function Companies() {
             <TouchableOpacity
               className="py-3"
               onPress={() => {
-                setSortBy("lastDate");
+                setSortBy("last_date");
                 setFilterModalVisible(false);
               }}
             >
@@ -237,9 +213,11 @@ export default function Companies() {
 
       {/* Companies List */}
       <ScrollView showsVerticalScrollIndicator={false}>
-        {filteredCompanies.length > 0 ? (
-          filteredCompanies.map((company, index) => (
-            <CompanyCard key={company.id} company={company} index={index} />
+        {loading ? (
+          <ActivityIndicator size="large" color="#6366f1" />
+        ) : filteredCompanies.length > 0 ? (
+          filteredCompanies.map((company) => (
+            <CompanyCard key={company.id} company={company} />
           ))
         ) : (
           <Text className="text-base text-gray-600 text-center mt-6">

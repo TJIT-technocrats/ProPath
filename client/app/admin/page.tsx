@@ -36,7 +36,7 @@ const AdminDashboard: React.FC = () => {
             </p>
           </Link>
           <Link
-            href="/admin"
+            href="/admin/companyDetails"
             className="cursor-pointer p-8 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg hover:scale-[1.02] hover:shadow-purple-500/30 active:scale-[0.98] transition-all duration-200 flex flex-col items-center justify-center"
           >
             <svg

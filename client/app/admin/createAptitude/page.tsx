@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { supabase } from "@/lib/supabaseClient";
 
 type QuestionType = "objective" | "subjective";
 
@@ -111,7 +112,91 @@ const CreateAptitude: React.FC = () => {
     return "";
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  // const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (isSubmitting) return;
+  //   setIsSubmitting(true);
+  //   setErrorMessage("");
+
+  //   const validationError = validateQuestions();
+  //   if (validationError) {
+  //     setErrorMessage(validationError);
+  //     setIsSubmitting(false);
+  //     return;
+  //   }
+
+  //   const form = e.currentTarget as HTMLFormElement;
+  //   const titleInput = form.elements.namedItem("title") as HTMLInputElement;
+  //   const descriptionInput = form.elements.namedItem(
+  //     "description"
+  //   ) as HTMLTextAreaElement;
+  //   const dateInput = form.elements.namedItem("date") as HTMLInputElement;
+  //   const durationInput = form.elements.namedItem(
+  //     "duration"
+  //   ) as HTMLInputElement;
+
+  //   const title = titleInput.value.trim();
+  //   const description = descriptionInput.value.trim();
+  //   const date = dateInput.value;
+  //   const duration = parseInt(durationInput.value);
+
+  //   if (!title) {
+  //     setErrorMessage("Quiz title is required.");
+  //     setIsSubmitting(false);
+  //     return;
+  //   }
+  //   if (!date) {
+  //     setErrorMessage("Quiz date is required.");
+  //     setIsSubmitting(false);
+  //     return;
+  //   }
+  //   if (isNaN(duration) || duration <= 0) {
+  //     setErrorMessage("Valid time limit (in minutes) is required.");
+  //     setIsSubmitting(false);
+  //     return;
+  //   }
+
+  //   try {
+  //     const newQuiz: Quiz = {
+  //       title,
+  //       description,
+  //       date,
+  //       time_limit: duration,
+  //       questions: questions.map((q) => ({
+  //         question_text: q.question_text.trim(),
+  //         question_type: q.question_type,
+  //         marks: parseInt(q.marks),
+  //         options:
+  //           q.question_type === "objective"
+  //             ? q.options.map((opt, idx) => ({
+  //                 option_text: opt.trim(),
+  //                 is_correct: idx === q.correctOption,
+  //               }))
+  //             : [],
+  //       })),
+  //     };
+
+  //     const existingQuizzes = JSON.parse(
+  //       localStorage.getItem("quizzes") || "[]"
+  //     );
+  //     localStorage.setItem(
+  //       "quizzes",
+  //       JSON.stringify([...existingQuizzes, newQuiz])
+  //     );
+  //     setQuizData(newQuiz);
+
+  //     alert("Quiz created successfully!");
+  //     form.reset();
+  //     setQuestions([]);
+  //     setQuestionId(1);
+  //   } catch (error) {
+  //     console.error("Quiz creation error:", error);
+  //     setErrorMessage("Failed to create quiz. Please try again.");
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSubmitting) return;
     setIsSubmitting(true);
@@ -126,16 +211,16 @@ const CreateAptitude: React.FC = () => {
 
     const form = e.currentTarget as HTMLFormElement;
     const titleInput = form.elements.namedItem("title") as HTMLInputElement;
-    const descriptionInput = form.elements.namedItem(
-      "description"
-    ) as HTMLTextAreaElement;
+    // const descriptionInput = form.elements.namedItem(
+    //   "description"
+    // ) as HTMLTextAreaElement;
     const dateInput = form.elements.namedItem("date") as HTMLInputElement;
     const durationInput = form.elements.namedItem(
       "duration"
     ) as HTMLInputElement;
 
     const title = titleInput.value.trim();
-    const description = descriptionInput.value.trim();
+    // const description = descriptionInput.value.trim();
     const date = dateInput.value;
     const duration = parseInt(durationInput.value);
 
@@ -156,35 +241,57 @@ const CreateAptitude: React.FC = () => {
     }
 
     try {
-      const newQuiz: Quiz = {
-        title,
-        description,
-        date,
-        time_limit: duration,
-        questions: questions.map((q) => ({
-          question_text: q.question_text.trim(),
-          question_type: q.question_type,
-          marks: parseInt(q.marks),
-          options:
-            q.question_type === "objective"
-              ? q.options.map((opt, idx) => ({
-                  option_text: opt.trim(),
-                  is_correct: idx === q.correctOption,
-                }))
-              : [],
-        })),
-      };
+      // 1️⃣ Insert quiz into `aptitudes`
+      const { data: quizData, error: quizError } = await supabase
+        .from("aptitudes")
+        .insert([
+          {
+            title,
+            date,
+            time_limit: duration,
+          },
+        ])
+        .select()
+        .single();
 
-      const existingQuizzes = JSON.parse(
-        localStorage.getItem("quizzes") || "[]"
-      );
-      localStorage.setItem(
-        "quizzes",
-        JSON.stringify([...existingQuizzes, newQuiz])
-      );
-      setQuizData(newQuiz);
+      if (quizError) throw quizError;
+      const quizId = quizData.id;
 
-      alert("Quiz created successfully!");
+      // 2️⃣ Insert each question
+      for (const q of questions) {
+        const { data: questionData, error: questionError } = await supabase
+          .from("aptitude_questions")
+          .insert([
+            {
+              aptitude_id: quizId,
+              question_text: q.question_text.trim(),
+              question_type: q.question_type,
+              marks: parseInt(q.marks),
+            },
+          ])
+          .select()
+          .single();
+
+        if (questionError) throw questionError;
+        const questionId = questionData.id;
+
+        // 3️⃣ Insert options for objective questions
+        if (q.question_type === "objective") {
+          const optionsPayload = q.options.map((opt, idx) => ({
+            question_id: questionId,
+            option_text: opt.trim(),
+            is_correct: idx === q.correctOption,
+          }));
+
+          const { error: optionsError } = await supabase
+            .from("aptitude_options")
+            .insert(optionsPayload);
+
+          if (optionsError) throw optionsError;
+        }
+      }
+
+      alert("Quiz created successfully in Supabase!");
       form.reset();
       setQuestions([]);
       setQuestionId(1);
