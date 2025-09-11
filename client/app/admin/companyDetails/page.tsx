@@ -13,11 +13,11 @@ interface CompanyFormData {
   cgpa_required: string;
   experience: string;
   about_company: string;
-  eligible_branches: string; // comma-separated input
+  eligible_branches: string;
   backlogs: string;
-  job_description: string; // comma-separated input
-  requirements: string; // comma-separated input
-  selection_process: string; // comma-separated input
+  job_description: string;
+  requirements: string;
+  selection_process: string;
 }
 
 const CompanyDetails: React.FC = () => {
@@ -43,7 +43,9 @@ const CompanyDetails: React.FC = () => {
   const [message, setMessage] = useState<string | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -57,7 +59,6 @@ const CompanyDetails: React.FC = () => {
     setLoading(true);
     setMessage(null);
 
-    // Convert comma-separated to arrays
     const payload = {
       company_name: formData.company_name,
       type: formData.type,
@@ -76,15 +77,15 @@ const CompanyDetails: React.FC = () => {
       job_description: formData.job_description
         .split(",")
         .map((item) => item.trim()),
-      requirements: formData.requirements
-        .split(",")
-        .map((item) => item.trim()),
+      requirements: formData.requirements.split(",").map((item) => item.trim()),
       selection_process: formData.selection_process
         .split(",")
         .map((item) => item.trim()),
     };
 
-    const { data, error } = await supabase.from("company_details").insert([payload]);
+    const { data, error } = await supabase
+      .from("company_details")
+      .insert([payload]);
 
     if (error) {
       console.error(error);
@@ -182,7 +183,9 @@ const CompanyDetails: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-white/90 mb-1 text-sm">Location</label>
+              <label className="block text-white/90 mb-1 text-sm">
+                Location
+              </label>
               <input
                 type="text"
                 name="location"
@@ -234,7 +237,9 @@ const CompanyDetails: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-white/90 mb-1 text-sm">Experience</label>
+              <label className="block text-white/90 mb-1 text-sm">
+                Experience
+              </label>
               <input
                 type="text"
                 name="experience"
