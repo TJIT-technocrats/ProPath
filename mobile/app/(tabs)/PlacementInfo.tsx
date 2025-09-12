@@ -4,8 +4,8 @@ import Companies from "@/components/companies";
 
 const PlacementInfo: React.FC = () => {
   return (
-    <ScrollView showsVerticalScrollIndicator={false} className="bg-gray-100">
-      <View className="p-3 w-full">
+    <ScrollView showsVerticalScrollIndicator={false} className="">
+      <View className=" w-full h-screen">
         <Companies />
       </View>
     </ScrollView>
