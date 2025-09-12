@@ -6,17 +6,6 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const NavLayout: React.FC = () => {
   return (
-    // <Tabs
-    //   screenOptions={{
-    //     tabBarShowLabel: false,
-    //     tabBarStyle: {
-    //       paddingBottom: 3,
-    //       paddingTop: 5,
-    //       height: 55,
-    //       width: "100%",
-    //     },
-    //   }}
-    // >
     <Tabs
       screenOptions={{
         tabBarShowLabel: false,

@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import "../global.css";
 import { useEffect, useState } from "react";
-import { StatusBar,Text } from "react-native";
+import { StatusBar, Text } from "react-native";
 
 import Login from "./(auth)/Login";
 import Signup from "./(auth)/Signup";
