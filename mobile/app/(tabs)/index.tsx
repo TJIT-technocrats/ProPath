@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Pressable,
 } from "react-native";
+import "react-native-reanimated";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -18,17 +19,13 @@ const Index: React.FC = () => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      className="bg-gray-50 flex-1"
+      className="bg-gray-100 flex-1"
     >
-      {/* ===== HEADER ===== */}
-      <View className="flex-row items-center justify-between bg-white mx-4 mt-6 rounded-3xl p-4 shadow-md">
+      <View className="h-[7em] bg-purple-500"></View>
+      <View className="flex-row items-center justify-between bg-white mx-4 -mt-10 rounded-3xl p-4 shadow-md">
         <View className="flex-row items-center">
-          {/* <Image
-            source={{ uri: "https://placehold.co/60x60" }}
-            className="w-14 h-14 rounded-full mr-3"
-          /> */}
-          <View className="w-14 h-14 rounded-full mr-3">
-            <AntDesign name="user" size={44} color="purple" />
+          <View className="w-14 h-14 bg-purple-500 rounded-full mr-3 flex items-center justify-center">
+            <AntDesign name="user" size={40} color="white" />
           </View>
           <View>
             <Text className="text-lg font-bold text-gray-900">Hi Yugi</Text>
@@ -43,7 +40,7 @@ const Index: React.FC = () => {
             onPress={() => supabase.auth.signOut()}
             className="bg-red-500 px-4 py-3 rounded-full"
           >
-            <Text className="text-white font-semibold text-sm">Logout</Text>
+            <Text className="text-white font-bold text-md">Logout</Text>
           </Pressable>
         </View>
       </View>
@@ -72,7 +69,7 @@ const Index: React.FC = () => {
         <View className="flex-row items-center mb-3">
           <Ionicons name="heart-outline" size={22} color="#7C3AED" />
           <Text className="text-lg font-bold text-gray-900 ml-2">
-            Quote for Humanity
+            Quote for the Day
           </Text>
         </View>
         <Text className="text-base text-gray-700 italic">

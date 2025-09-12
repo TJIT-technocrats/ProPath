@@ -60,11 +60,11 @@ export default function CompanyDetails() {
       className="bg-gray-100 flex-1"
       showsVerticalScrollIndicator={false}
     >
-      <View className="bg-white px-6 py-5 shadow-sm flex-row items-center">
+      <View className="bg-purple-500 px-6 py-7 shadow-sm flex-row items-center">
         <TouchableOpacity onPress={() => router.back()} className="mr-3">
-          <Ionicons name="arrow-back" size={28} color="#111827" />
+          <Ionicons name="arrow-back" size={28} color="white" />
         </TouchableOpacity>
-        <Text className="text-xl font-bold text-gray-800">Company Details</Text>
+        <Text className="text-2xl font-bold text-white">Company Details</Text>
       </View>
       <View className="bg-white rounded-2xl mx-0 mt-0 p-6 shadow-lg">
         <View className="flex-row items-start">

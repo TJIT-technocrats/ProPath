@@ -1,135 +1,88 @@
-// import React, { useState } from "react";
-// import { View, Text, TextInput, Alert, Pressable } from "react-native";
-// import { supabase } from "@/lib/supabaseClient";
-
-// export default function Signup({ onSignup }: { onSignup: any }) {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-
-//   const handleSignup = async () => {
-//     const { data, error } = await supabase.auth.signUp({
-//       email,
-//       password,
-//       options: {
-//         data: { role: "student" },
-//       },
-//     });
-//     if (error) Alert.alert("Error", error.message);
-//     else onSignup(data.session);
-//   };
-
-//   return (
-//     <View>
-//       <Text>Student Signup</Text>
-//       <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
-//       <TextInput
-//         placeholder="Password"
-//         secureTextEntry
-//         value={password}
-//         onChangeText={setPassword}
-//       />
-//       <Pressable onPress={handleSignup}>
-//         <Text>Signup</Text>
-//       </Pressable>
-//     </View>
-//   );
-// }
 import React, { useState } from "react";
-import { View, Text, TextInput, Alert, Pressable, StyleSheet, Image } from "react-native";
+import { View, Text, TextInput, Alert, Pressable } from "react-native";
 import { supabase } from "@/lib/supabaseClient";
+import { Link } from "expo-router";
 
 export default function Signup({ onSignup }: { onSignup: any }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const handleSignup = async () => {
     const { data, error } = await supabase.auth.signUp({
+      name,
       email,
       password,
       options: {
         data: { role: "student" },
       },
     });
-    if (error) Alert.alert("Error", error.message);
-    else onSignup(data.session);
+    if (error) {
+      Alert.alert("Error", error.message);
+    } else if (data.session) {
+      onSignup(data.session);
+    } else {
+      Alert.alert("Login successful", "No session returned");
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Hi, Student!</Text>
-      <Text style={styles.subtitle}>Create your account to start learning</Text>
+    <View className="flex-1 bg-gray-100 justify-center px-6">
+      {/* Card Container */}
+      <View className="bg-white p-8 rounded-3xl shadow-lg">
+        <Text className="text-2xl font-bold mb-2 text-[#2D2D2D]">
+          Hi, Student!
+        </Text>
+        <Text className="text-lg mb-10">
+          Create your account to start learning
+        </Text>
 
-      <View style={styles.inputContainer}>
+        <Text className="text-gray-600 mb-1">Name</Text>
         <TextInput
-          placeholder="Email"
+          className="bg-gray-100 p-4 rounded-xl mb-4 text-base text-gray-800"
+          placeholder="Enter your Name"
+          value={name}
+          onChangeText={setName}
+        />
+
+        {/* Email Input */}
+        <Text className="text-gray-600 mb-1">BEC Number</Text>
+        <TextInput
+          className="bg-gray-100 p-4 rounded-xl mb-4 text-base text-gray-800"
+          placeholder="Enter your BEC Number"
           value={email}
           onChangeText={setEmail}
-          style={styles.input}
           keyboardType="email-address"
         />
+
+        {/* Password Input */}
+        <Text className="text-gray-600 mb-1">Password</Text>
         <TextInput
-          placeholder="Password"
+          className="bg-gray-100 p-4 rounded-xl mb-6 text-base text-gray-800"
+          placeholder="Enter your password"
           secureTextEntry
           value={password}
           onChangeText={setPassword}
-          style={styles.input}
         />
-      </View>
 
-      <Pressable style={styles.button} onPress={handleSignup}>
-        <Text style={styles.buttonText}>Signup</Text>
-      </Pressable>
+        {/* Signup Button */}
+        <Pressable
+          className="bg-purple-500 py-4 rounded-2xl mb-4"
+          onPress={handleSignup}
+        >
+          <Text className="text-white text-center text-lg font-semibold">
+            Signup
+          </Text>
+        </Pressable>
+
+        {/* Already have an account? */}
+        <Text className="text-center text-gray-500 text-sm">
+          Already have an account?{" "}
+          <Link href="/(auth)/Login" className="text-purple-500 font-semibold">
+            Login
+          </Link>
+        </Text>
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#F9F9F9",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "700",
-    marginBottom: 5,
-    color: "#2D2D2D",
-  },
-  subtitle: {
-    fontSize: 16,
-    color: "#555",
-    marginBottom: 30,
-  },
-  inputContainer: {
-    backgroundColor: "#FFF",
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 10,
-    elevation: 5,
-    marginBottom: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
-    borderRadius: 12,
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    fontSize: 16,
-    marginBottom: 15,
-  },
-  button: {
-    backgroundColor: "#FFD23F",
-    paddingVertical: 15,
-    borderRadius: 16,
-    alignItems: "center",
-  },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#2D2D2D",
-  },
-});

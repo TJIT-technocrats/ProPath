@@ -136,11 +136,10 @@ export default function Companies() {
     });
 
   return (
-    <View className="flex-1 bg-gray-50 p-4">
-      {/* Search + Filter */}
-      <View className="flex-row items-center mb-5">
+    <View className="flex-1 bg-gray-100 p-4">
+      <View className="flex-row items-center mb-5 -mt-10">
         <View className="flex-1 mr-3">
-          <View className="flex-row items-center bg-white rounded-full px-4 py-3 shadow-sm">
+          <View className="flex-row items-center bg-white rounded-full px-4 py-3 shadow-sm ">
             <Ionicons name="search" size={20} color="#9CA3AF" />
             <TextInput
               placeholder="Search companies or roles..."
@@ -150,12 +149,14 @@ export default function Companies() {
             />
           </View>
         </View>
-        <TouchableOpacity
-          className="bg-purple-500 p-3 rounded-full shadow-sm"
-          onPress={() => setFilterModalVisible(true)}
-        >
-          <Ionicons name="filter" size={20} color="white" />
-        </TouchableOpacity>
+        <View className="bg-white p-2 rounded-full">
+          <TouchableOpacity
+            className="bg-purple-500 p-3 rounded-full shadow-sm"
+            onPress={() => setFilterModalVisible(true)}
+          >
+            <Ionicons name="filter" size={20} color="white" />
+          </TouchableOpacity>
+        </View>
       </View>
       <Modal
         animationType="slide"
