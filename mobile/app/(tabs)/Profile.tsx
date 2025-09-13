@@ -20,7 +20,7 @@ const Profile: React.FC = () => {
       className="flex-1 bg-gray-100"
       showsVerticalScrollIndicator={false}
     >
-      <View className="h-[7em] bg-purple-500"></View>
+      <View className="h-[5.5em] bg-purple-500"></View>
       <View className="mt-4 p-4">
         <View className="items-center mb-6 mt-4 p-4">
           <View className="bg-white p-3 mb-4 rounded-full -mt-32">

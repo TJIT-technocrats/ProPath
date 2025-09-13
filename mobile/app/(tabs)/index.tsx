@@ -10,13 +10,14 @@ import "react-native-reanimated";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import UpcomingPlacements from "@/components/UpcomingPlacements";
 import { supabase } from "@/lib/supabaseClient";
 import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
 
 const Index: React.FC = () => {
+  const router = useRouter();
   const [quotes, setQuotes] = useState<any[]>([]);
   const getQuote = async () => {
     try {
@@ -34,7 +35,7 @@ const Index: React.FC = () => {
       showsVerticalScrollIndicator={false}
       className="bg-gray-100 flex-1"
     >
-      <View className="h-[7em] bg-purple-500"></View>
+      <View className="h-[5.5em] bg-purple-500"></View>
       <View className="flex-row items-center justify-between bg-white mx-4 -mt-10 rounded-3xl p-4 shadow-md">
         <View className="flex-row items-center">
           <View className="w-14 h-14 bg-purple-500 rounded-full mr-3 flex items-center justify-center">
@@ -50,7 +51,10 @@ const Index: React.FC = () => {
             <Ionicons name="notifications-outline" size={20} color="#fff" />
           </TouchableOpacity>
           <Pressable
-            onPress={() => supabase.auth.signOut()}
+            onPress={async () => {
+              await supabase.auth.signOut();
+              router.replace("/");
+            }}
             className="bg-red-500 px-4 py-3 rounded-full"
           >
             <Text className="text-white font-bold text-md">Logout</Text>

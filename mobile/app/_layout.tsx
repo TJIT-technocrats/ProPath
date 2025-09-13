@@ -1,16 +1,13 @@
 import { Stack } from "expo-router";
 import "../global.css";
 import { useEffect, useState } from "react";
-import { StatusBar, Text } from "react-native";
-
-import Login from "./(auth)/Login";
-import Signup from "./(auth)/Signup";
+import { StatusBar, Text, View } from "react-native";
 import { supabase } from "@/lib/supabaseClient";
+import AuthScreen from "./(auth)/auth"; // new combined login/signup
 
 export default function RootLayout() {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [showSignup, setShowSignup] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -23,17 +20,22 @@ export default function RootLayout() {
         setSession(session);
       }
     );
-    return () => subscription.subscription.unsubscribe();
+
+    return () => {
+      subscription.subscription.unsubscribe();
+    };
   }, []);
 
-  if (loading) return <Text>Loading…</Text>;
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text>Loading…</Text>
+      </View>
+    );
+  }
 
   if (!session) {
-    return showSignup ? (
-      <Signup onSignup={setSession} onShowLogin={() => setShowSignup(false)} />
-    ) : (
-      <Login onLogin={setSession} onShowSignup={() => setShowSignup(true)} />
-    );
+    return <AuthScreen onAuth={setSession} />;
   }
 
   return (
