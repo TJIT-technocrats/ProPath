@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,8 +14,21 @@ import { Link } from "expo-router";
 import UpcomingPlacements from "@/components/UpcomingPlacements";
 import { supabase } from "@/lib/supabaseClient";
 import { AntDesign } from "@expo/vector-icons";
+import axios from "axios";
 
 const Index: React.FC = () => {
+  const [quotes, setQuotes] = useState<any[]>([]);
+  const getQuote = async () => {
+    try {
+      const response = await axios.get("https://zenquotes.io/api/today");
+      setQuotes(response.data);
+    } catch (error: any) {
+      console.log(`erorr :${error.message}`);
+    }
+  };
+  useEffect(() => {
+    getQuote();
+  }, []);
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -72,10 +85,13 @@ const Index: React.FC = () => {
             Quote for the Day
           </Text>
         </View>
-        <Text className="text-base text-gray-700 italic">
-          "The best way to find yourself is to lose yourself in the service of
-          others." – Mahatma Gandhi
-        </Text>
+        <View>
+          <Text className="text-base text-gray-700 italic">
+            &quot;{quotes.length > 0 && quotes[0].q}&quot; -{" "}
+            {quotes.length > 0 && ` ${quotes[0].a}`}
+          </Text>
+          <Text className="text-base text-gray-700 italic"></Text>
+        </View>
       </View>
 
       {/* ===== UPCOMING PLACEMENTS ===== */}

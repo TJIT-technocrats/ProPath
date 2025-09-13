@@ -148,8 +148,8 @@ const CompanyDetails: React.FC = () => {
               >
                 <option value="">Select Type</option>
                 <option value="Internship">Internship</option>
-                <option value="Full-Time">Full-Time</option>
-                <option value="Part-Time">Part-Time</option>
+                <option value="FullTime">FullTime</option>
+                <option value="PartTime">PartTime</option>
               </select>
             </div>
 
