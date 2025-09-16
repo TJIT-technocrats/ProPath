@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, FormEvent } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation";
 
 interface CompanyFormData {
   company_name: string;
@@ -41,6 +42,7 @@ const CompanyDetails: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -85,33 +87,18 @@ const CompanyDetails: React.FC = () => {
 
     const { data, error } = await supabase
       .from("company_details")
-      .insert([payload]);
+      .insert([payload])
+      .select()
+      .single();
 
     if (error) {
       console.error(error);
-      setMessage("Error adding company details.");
+      setMessage("❌ Error adding company details.");
+      setLoading(false);
     } else {
-      setMessage("Company details added successfully!");
-      // Reset form
-      setFormData({
-        company_name: "",
-        type: "",
-        salary: "",
-        status: "",
-        location: "",
-        last_date: "",
-        interview_date: "",
-        cgpa_required: "",
-        experience: "",
-        about_company: "",
-        eligible_branches: "",
-        backlogs: "",
-        job_description: "",
-        requirements: "",
-        selection_process: "",
-      });
+      // ✅ Redirect to success page with new companyId
+      router.push(`/admin/companySuccess?companyId=${data.id}`);
     }
-    setLoading(false);
   };
 
   return (
@@ -123,6 +110,7 @@ const CompanyDetails: React.FC = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* Company Name */}
             <div>
               <label className="block text-white/90 mb-1 text-sm">
                 Company Name
@@ -133,10 +121,10 @@ const CompanyDetails: React.FC = () => {
                 value={formData.company_name}
                 onChange={handleChange}
                 required
-                className="w-full rounded-xl p-3 bg-white/10 text-white"
+                className="w-full rounded-xl p-3 bg-white/10 text-white placeholder-white/50 border border-white/20"
               />
             </div>
-
+            {/* Type */}
             <div>
               <label className="block text-white/90 mb-1 text-sm">Type</label>
               <select
@@ -144,7 +132,7 @@ const CompanyDetails: React.FC = () => {
                 value={formData.type}
                 onChange={handleChange}
                 required
-                className="w-full rounded-xl p-3 bg-white/10 text-white"
+                className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
               >
                 <option value="">Select Type</option>
                 <option value="Internship">Internship</option>
@@ -152,7 +140,7 @@ const CompanyDetails: React.FC = () => {
                 <option value="PartTime">PartTime</option>
               </select>
             </div>
-
+            {/* Salary */}
             <div>
               <label className="block text-white/90 mb-1 text-sm">
                 Salary / Stipend
@@ -163,10 +151,10 @@ const CompanyDetails: React.FC = () => {
                 value={formData.salary}
                 onChange={handleChange}
                 required
-                className="w-full rounded-xl p-3 bg-white/10 text-white"
+                className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
               />
             </div>
-
+            {/* Status */}
             <div>
               <label className="block text-white/90 mb-1 text-sm">Status</label>
               <select
@@ -174,14 +162,14 @@ const CompanyDetails: React.FC = () => {
                 value={formData.status}
                 onChange={handleChange}
                 required
-                className="w-full rounded-xl p-3 bg-white/10 text-white"
+                className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
               >
                 <option value="">Select Status</option>
                 <option value="Open">Open</option>
                 <option value="Closed">Closed</option>
               </select>
             </div>
-
+            {/* Location */}
             <div>
               <label className="block text-white/90 mb-1 text-sm">
                 Location
@@ -191,10 +179,10 @@ const CompanyDetails: React.FC = () => {
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
-                className="w-full rounded-xl p-3 bg-white/10 text-white"
+                className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
               />
             </div>
-
+            {/* Dates */}
             <div>
               <label className="block text-white/90 mb-1 text-sm">
                 Last Date
@@ -205,10 +193,9 @@ const CompanyDetails: React.FC = () => {
                 value={formData.last_date}
                 onChange={handleChange}
                 required
-                className="w-full rounded-xl p-3 bg-white/10 text-white"
+                className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
               />
             </div>
-
             <div>
               <label className="block text-white/90 mb-1 text-sm">
                 Interview Date
@@ -219,10 +206,10 @@ const CompanyDetails: React.FC = () => {
                 value={formData.interview_date}
                 onChange={handleChange}
                 required
-                className="w-full rounded-xl p-3 bg-white/10 text-white"
+                className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
               />
             </div>
-
+            {/* CGPA */}
             <div>
               <label className="block text-white/90 mb-1 text-sm">
                 CGPA Required
@@ -232,10 +219,10 @@ const CompanyDetails: React.FC = () => {
                 name="cgpa_required"
                 value={formData.cgpa_required}
                 onChange={handleChange}
-                className="w-full rounded-xl p-3 bg-white/10 text-white"
+                className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
               />
             </div>
-
+            {/* Experience */}
             <div>
               <label className="block text-white/90 mb-1 text-sm">
                 Experience
@@ -245,11 +232,11 @@ const CompanyDetails: React.FC = () => {
                 name="experience"
                 value={formData.experience}
                 onChange={handleChange}
-                className="w-full rounded-xl p-3 bg-white/10 text-white"
+                className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
               />
             </div>
           </div>
-
+          {/* About */}
           <div>
             <label className="block text-white/90 mb-1 text-sm">
               About Company
@@ -259,10 +246,10 @@ const CompanyDetails: React.FC = () => {
               value={formData.about_company}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-xl p-3 bg-white/10 text-white"
+              className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
             />
           </div>
-
+          {/* Eligible Branches */}
           <div>
             <label className="block text-white/90 mb-1 text-sm">
               Eligible Branches (comma-separated)
@@ -272,10 +259,10 @@ const CompanyDetails: React.FC = () => {
               name="eligible_branches"
               value={formData.eligible_branches}
               onChange={handleChange}
-              className="w-full rounded-xl p-3 bg-white/10 text-white"
+              className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
             />
           </div>
-
+          {/* Backlogs */}
           <div>
             <label className="block text-white/90 mb-1 text-sm">Backlogs</label>
             <input
@@ -283,10 +270,10 @@ const CompanyDetails: React.FC = () => {
               name="backlogs"
               value={formData.backlogs}
               onChange={handleChange}
-              className="w-full rounded-xl p-3 bg-white/10 text-white"
+              className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
             />
           </div>
-
+          {/* Job Desc */}
           <div>
             <label className="block text-white/90 mb-1 text-sm">
               Job Description (comma-separated bullet points)
@@ -296,10 +283,10 @@ const CompanyDetails: React.FC = () => {
               value={formData.job_description}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-xl p-3 bg-white/10 text-white"
+              className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
             />
           </div>
-
+          {/* Requirements */}
           <div>
             <label className="block text-white/90 mb-1 text-sm">
               Requirements (comma-separated bullet points)
@@ -309,10 +296,10 @@ const CompanyDetails: React.FC = () => {
               value={formData.requirements}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-xl p-3 bg-white/10 text-white"
+              className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
             />
           </div>
-
+          {/* Selection */}
           <div>
             <label className="block text-white/90 mb-1 text-sm">
               Selection Process (comma-separated steps)
@@ -322,10 +309,10 @@ const CompanyDetails: React.FC = () => {
               value={formData.selection_process}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-xl p-3 bg-white/10 text-white"
+              className="w-full rounded-xl p-3 bg-white/10 text-white border border-white/20"
             />
           </div>
-
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
@@ -333,7 +320,6 @@ const CompanyDetails: React.FC = () => {
           >
             {loading ? "Submitting..." : "Submit"}
           </button>
-
           {message && <p className="text-center text-white mt-4">{message}</p>}
         </form>
       </div>
