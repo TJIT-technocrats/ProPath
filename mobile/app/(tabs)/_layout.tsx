@@ -9,14 +9,14 @@ const NavLayout: React.FC = () => {
     <Tabs
       screenOptions={{
         tabBarShowLabel: false,
-        tabBarActiveTintColor: "white", // Indigo
-        tabBarInactiveTintColor: "white", // Gray
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "white",
         tabBarStyle: {
           paddingBottom: 3,
           paddingTop: 5,
           height: 55,
           width: "100%",
-          backgroundColor:"#A855F7"
+          backgroundColor: "#A855F7",
         },
       }}
     >

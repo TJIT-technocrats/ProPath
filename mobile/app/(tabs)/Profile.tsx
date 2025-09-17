@@ -12,19 +12,44 @@ import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const allSkills = [
-  "JavaScript", "React", "Node.js", "Python", "SQL", "AWS", "C", "C++", "C#",
-  "Computer Networks", "Computer-Aided Design (CAD)", "Construction Management",
-  "Create 'C'", "Team Collaboration", "TypeScript", "MongoDB", "Visual Studio Code",
-  "Google Cloud Platform", "Postman", "PostgreSQL", "Git", "Express.js", "Java",
-  "HTML5", "CSS3", "Firebase", "React Native"
+  "JavaScript",
+  "React",
+  "Node.js",
+  "Python",
+  "SQL",
+  "AWS",
+  "C",
+  "C++",
+  "C#",
+  "Computer Networks",
+  "Computer-Aided Design (CAD)",
+  "Construction Management",
+  "Create 'C'",
+  "Team Collaboration",
+  "TypeScript",
+  "MongoDB",
+  "Visual Studio Code",
+  "Google Cloud Platform",
+  "Postman",
+  "PostgreSQL",
+  "Git",
+  "Express.js",
+  "Java",
+  "HTML5",
+  "CSS3",
+  "Firebase",
+  "React Native",
 ];
 
 const Profile = () => {
   const [editContactModalVisible, setEditContactModalVisible] = useState(false);
-  const [editObjectiveModalVisible, setEditObjectiveModalVisible] = useState(false);
+  const [editObjectiveModalVisible, setEditObjectiveModalVisible] =
+    useState(false);
   const [editSkillsModalVisible, setEditSkillsModalVisible] = useState(false);
-  const [editEducationModalVisible, setEditEducationModalVisible] = useState(false);
-  const [editProjectsModalVisible, setEditProjectsModalVisible] = useState(false);
+  const [editEducationModalVisible, setEditEducationModalVisible] =
+    useState(false);
+  const [editProjectsModalVisible, setEditProjectsModalVisible] =
+    useState(false);
   const [editCertModalVisible, setEditCertModalVisible] = useState(false);
 
   const [name, setName] = useState("Yugitha B");
@@ -34,16 +59,32 @@ const Profile = () => {
     "Aspiring software engineer eager to contribute to innovative projects with strong problem-solving and teamwork skills."
   );
   const [education, setEducation] = useState([
-    { level: "10th", institution: "Sri Chaitanya Techno School", year: "2019", score: "92%" },
-    { level: "12th / PUC", institution: "Sri Chaitanya PU College", year: "2021", score: "90%" },
-    { level: "B.E CSE (UG)", institution: "XYZ Engineering College", year: "2025", score: "8.0 CGPA" },
+    {
+      level: "10th",
+      institution: "Sri Chaitanya Techno School",
+      year: "2019",
+      score: "92%",
+    },
+    {
+      level: "12th / PUC",
+      institution: "Sri Chaitanya PU College",
+      year: "2021",
+      score: "90%",
+    },
+    {
+      level: "B.E CSE (UG)",
+      institution: "XYZ Engineering College",
+      year: "2025",
+      score: "8.0 CGPA",
+    },
   ]);
   const [certifications, setCertifications] = useState([
     {
       course: "Full Stack Web Development",
       platform: "Udemy",
       year: "2024",
-      description: "A comprehensive course covering front-end and back-end web technologies.",
+      description:
+        "A comprehensive course covering front-end and back-end web technologies.",
       skills: ["JavaScript", "React", "Node.js", "Express.js"],
       isOngoing: false,
       startDate: "Jan 2024",
@@ -93,15 +134,16 @@ const Profile = () => {
   const [tempEducation, setTempEducation] = useState([...education]);
   const [tempSkills, setTempSkills] = useState([...skills]);
   const [tempProjects, setTempProjects] = useState([...projects]);
-  const [tempCertifications, setTempCertifications] = useState([...certifications]);
-  
+  const [tempCertifications, setTempCertifications] = useState([
+    ...certifications,
+  ]);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [projectSearchTerm, setProjectSearchTerm] = useState("");
   const [projectSuggestions, setProjectSuggestions] = useState([]);
   const [certSearchTerm, setCertSearchTerm] = useState("");
   const [certSuggestions, setCertSuggestions] = useState([]);
-
 
   const [editingEducationIndex, setEditingEducationIndex] = useState(null);
   const [editingProjectIndex, setEditingProjectIndex] = useState(null);
@@ -125,7 +167,8 @@ const Profile = () => {
       const updatedEducation = [...education];
       // if index exists in original array -> replace; otherwise append
       if (editingEducationIndex < updatedEducation.length) {
-        updatedEducation[editingEducationIndex] = tempEducation[editingEducationIndex];
+        updatedEducation[editingEducationIndex] =
+          tempEducation[editingEducationIndex];
       } else {
         // add new
         updatedEducation.push(tempEducation[editingEducationIndex]);
@@ -139,11 +182,15 @@ const Profile = () => {
   const deleteEducation = () => {
     if (editingEducationIndex !== null) {
       if (editingEducationIndex < education.length) {
-        const updatedEducation = education.filter((_, index) => index !== editingEducationIndex);
+        const updatedEducation = education.filter(
+          (_, index) => index !== editingEducationIndex
+        );
         setEducation(updatedEducation);
       } else {
         // was a temporary unsaved education => remove from tempEducation only
-        const updatedTemp = tempEducation.filter((_, index) => index !== editingEducationIndex);
+        const updatedTemp = tempEducation.filter(
+          (_, index) => index !== editingEducationIndex
+        );
         setTempEducation(updatedTemp);
       }
     }
@@ -153,14 +200,17 @@ const Profile = () => {
 
   // add new education button handler
   const addEducation = () => {
-    const newTemp = [...tempEducation, { level: "New", institution: "", year: "", score: "" }];
+    const newTemp = [
+      ...tempEducation,
+      { level: "New", institution: "", year: "", score: "" },
+    ];
     setTempEducation(newTemp);
     setEditingEducationIndex(newTemp.length - 1);
     setEditEducationModalVisible(true);
   };
 
   const saveSkills = () => {
-    setSkills(tempSkills.filter(skill => skill.trim() !== ""));
+    setSkills(tempSkills.filter((skill) => skill.trim() !== ""));
     setEditSkillsModalVisible(false);
     setSearchTerm("");
     setSuggestions([]);
@@ -171,7 +221,8 @@ const Profile = () => {
     if (editingProjectIndex !== null) {
       const updatedProjects = [...projects];
       if (editingProjectIndex < updatedProjects.length) {
-        updatedProjects[editingProjectIndex] = tempProjects[editingProjectIndex];
+        updatedProjects[editingProjectIndex] =
+          tempProjects[editingProjectIndex];
       } else {
         updatedProjects.push(tempProjects[editingProjectIndex]);
       }
@@ -186,11 +237,15 @@ const Profile = () => {
   const deleteProject = () => {
     if (editingProjectIndex !== null) {
       if (editingProjectIndex < projects.length) {
-        const updatedProjects = projects.filter((_, index) => index !== editingProjectIndex);
+        const updatedProjects = projects.filter(
+          (_, index) => index !== editingProjectIndex
+        );
         setProjects(updatedProjects);
       } else {
         // remove unsaved temp
-        const updatedTemp = tempProjects.filter((_, index) => index !== editingProjectIndex);
+        const updatedTemp = tempProjects.filter(
+          (_, index) => index !== editingProjectIndex
+        );
         setTempProjects(updatedTemp);
       }
     }
@@ -199,12 +254,22 @@ const Profile = () => {
   };
 
   const addProject = () => {
-    const newTemp = [...tempProjects, { title: "", tech: [], desc: "", startDate: "", endDate: null, isOngoing: false }];
+    const newTemp = [
+      ...tempProjects,
+      {
+        title: "",
+        tech: [],
+        desc: "",
+        startDate: "",
+        endDate: null,
+        isOngoing: false,
+      },
+    ];
     setTempProjects(newTemp);
     setEditingProjectIndex(newTemp.length - 1);
     setEditProjectsModalVisible(true);
   };
-  
+
   const saveCertifications = () => {
     if (editingCertIndex !== null) {
       const updatedCerts = [...certifications];
@@ -224,11 +289,15 @@ const Profile = () => {
   const deleteCert = () => {
     if (editingCertIndex !== null) {
       if (editingCertIndex < certifications.length) {
-        const updatedCerts = certifications.filter((_, index) => index !== editingCertIndex);
+        const updatedCerts = certifications.filter(
+          (_, index) => index !== editingCertIndex
+        );
         setCertifications(updatedCerts);
       } else {
         // remove unsaved temp entry
-        const updatedTemp = tempCertifications.filter((_, index) => index !== editingCertIndex);
+        const updatedTemp = tempCertifications.filter(
+          (_, index) => index !== editingCertIndex
+        );
         setTempCertifications(updatedTemp);
       }
     }
@@ -237,16 +306,19 @@ const Profile = () => {
   };
 
   const addCert = () => {
-    const newTemp = [...tempCertifications, {
-      course: "",
-      platform: "",
-      year: "",
-      description: "",
-      skills: [],
-      isOngoing: false,
-      startDate: "",
-      endDate: null
-    }];
+    const newTemp = [
+      ...tempCertifications,
+      {
+        course: "",
+        platform: "",
+        year: "",
+        description: "",
+        skills: [],
+        isOngoing: false,
+        startDate: "",
+        endDate: null,
+      },
+    ];
     setTempCertifications(newTemp);
     setEditingCertIndex(newTemp.length - 1);
     setEditCertModalVisible(true);
@@ -276,9 +348,9 @@ const Profile = () => {
   };
 
   const removeSkill = (skillToRemove) => {
-    setTempSkills(tempSkills.filter(skill => skill !== skillToRemove));
+    setTempSkills(tempSkills.filter((skill) => skill !== skillToRemove));
   };
-  
+
   // Logic for the Projects technology section
   const handleProjectSearch = (text) => {
     setProjectSearchTerm(text);
@@ -305,11 +377,13 @@ const Profile = () => {
       setProjectSuggestions([]);
     }
   };
-  
+
   const removeProjectSkill = (skillToRemove) => {
     const updatedProjects = [...tempProjects];
     const currentTech = updatedProjects[editingProjectIndex]?.tech || [];
-    updatedProjects[editingProjectIndex].tech = currentTech.filter(skill => skill !== skillToRemove);
+    updatedProjects[editingProjectIndex].tech = currentTech.filter(
+      (skill) => skill !== skillToRemove
+    );
     setTempProjects(updatedProjects);
   };
 
@@ -343,13 +417,17 @@ const Profile = () => {
   const removeCertSkill = (skillToRemove) => {
     const updatedCerts = [...tempCertifications];
     const currentSkills = updatedCerts[editingCertIndex]?.skills || [];
-    updatedCerts[editingCertIndex].skills = currentSkills.filter(skill => skill !== skillToRemove);
+    updatedCerts[editingCertIndex].skills = currentSkills.filter(
+      (skill) => skill !== skillToRemove
+    );
     setTempCertifications(updatedCerts);
   };
 
-
   return (
-    <ScrollView className="flex-1 bg-gray-100" showsVerticalScrollIndicator={false}>
+    <ScrollView
+      className="flex-1 bg-gray-100"
+      showsVerticalScrollIndicator={false}
+    >
       <View className="h-[7em] bg-purple-500"></View>
       <View className="mt-4 p-4">
         {/* Profile Header */}
@@ -385,7 +463,12 @@ const Profile = () => {
             <Text className="text-xl font-bold text-gray-800">
               Contact Information
             </Text>
-            <TouchableOpacity onPress={() => { setTempContact({ name, email, phone }); setEditContactModalVisible(true); }}>
+            <TouchableOpacity
+              onPress={() => {
+                setTempContact({ name, email, phone });
+                setEditContactModalVisible(true);
+              }}
+            >
               <AntDesign name="edit" size={22} color="#6366F1" />
             </TouchableOpacity>
           </View>
@@ -405,7 +488,12 @@ const Profile = () => {
             <Text className="text-xl font-bold text-gray-800">
               Career Objective
             </Text>
-            <TouchableOpacity onPress={() => { setTempObjective(objective); setEditObjectiveModalVisible(true); }}>
+            <TouchableOpacity
+              onPress={() => {
+                setTempObjective(objective);
+                setEditObjectiveModalVisible(true);
+              }}
+            >
               <AntDesign name="edit" size={22} color="#6366F1" />
             </TouchableOpacity>
           </View>
@@ -416,7 +504,12 @@ const Profile = () => {
         <View className="bg-white p-5 rounded-2xl mb-5 shadow-md">
           <View className="flex-row justify-between items-center mb-4">
             <Text className="text-xl font-bold text-gray-800">Skills</Text>
-            <TouchableOpacity onPress={() => { setTempSkills([...skills]); setEditSkillsModalVisible(true); }}>
+            <TouchableOpacity
+              onPress={() => {
+                setTempSkills([...skills]);
+                setEditSkillsModalVisible(true);
+              }}
+            >
               <AntDesign name="edit" size={22} color="#6366F1" />
             </TouchableOpacity>
           </View>
@@ -456,12 +549,14 @@ const Profile = () => {
                 </Text>
                 <Text className="text-sm text-gray-600">{edu.score}</Text>
               </View>
-              <TouchableOpacity onPress={() => {
-                setEditingEducationIndex(index);
-                const temp = [...education];
-                setTempEducation(temp);
-                setEditEducationModalVisible(true);
-              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  setEditingEducationIndex(index);
+                  const temp = [...education];
+                  setTempEducation(temp);
+                  setEditEducationModalVisible(true);
+                }}
+              >
                 <AntDesign name="edit" size={22} color="#6366F1" />
               </TouchableOpacity>
             </View>
@@ -490,15 +585,18 @@ const Profile = () => {
                 </Text>
                 <Text className="text-sm text-gray-600">{project.desc}</Text>
                 <Text className="text-xs text-gray-400 mt-2">
-                  {project.startDate} - {project.isOngoing ? "Present" : project.endDate}
+                  {project.startDate} -{" "}
+                  {project.isOngoing ? "Present" : project.endDate}
                 </Text>
               </View>
-              <TouchableOpacity onPress={() => {
-                setEditingProjectIndex(index);
-                const temp = [...projects];
-                setTempProjects(temp);
-                setEditProjectsModalVisible(true);
-              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  setEditingProjectIndex(index);
+                  const temp = [...projects];
+                  setTempProjects(temp);
+                  setEditProjectsModalVisible(true);
+                }}
+              >
                 <AntDesign name="edit" size={22} color="#6366F1" />
               </TouchableOpacity>
             </View>
@@ -530,21 +628,28 @@ const Profile = () => {
                 <Text className="text-xs text-gray-400 mt-2">
                   {cert.startDate} - {cert.isOngoing ? "Present" : cert.endDate}
                 </Text>
-                <Text className="text-sm text-gray-600 mt-2">{cert.description}</Text>
+                <Text className="text-sm text-gray-600 mt-2">
+                  {cert.description}
+                </Text>
                 <View className="flex-row flex-wrap mt-2">
                   {cert.skills.map((skill, skillIndex) => (
-                    <Text key={skillIndex} className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs font-semibold mr-1 mb-1">
+                    <Text
+                      key={skillIndex}
+                      className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs font-semibold mr-1 mb-1"
+                    >
                       {skill}
                     </Text>
                   ))}
                 </View>
               </View>
-              <TouchableOpacity onPress={() => {
-                setEditingCertIndex(index);
-                const temp = [...certifications];
-                setTempCertifications(temp);
-                setEditCertModalVisible(true);
-              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  setEditingCertIndex(index);
+                  const temp = [...certifications];
+                  setTempCertifications(temp);
+                  setEditCertModalVisible(true);
+                }}
+              >
                 <AntDesign name="edit" size={22} color="#6366F1" />
               </TouchableOpacity>
             </View>
@@ -590,19 +695,25 @@ const Profile = () => {
               className="bg-gray-100 p-3 rounded-lg mb-3 text-base text-gray-700"
               placeholder="Name"
               value={tempContact.name}
-              onChangeText={(text) => setTempContact({ ...tempContact, name: text })}
+              onChangeText={(text) =>
+                setTempContact({ ...tempContact, name: text })
+              }
             />
             <TextInput
               className="bg-gray-100 p-3 rounded-lg mb-3 text-base text-gray-700"
               placeholder="Email"
               value={tempContact.email}
-              onChangeText={(text) => setTempContact({ ...tempContact, email: text })}
+              onChangeText={(text) =>
+                setTempContact({ ...tempContact, email: text })
+              }
             />
             <TextInput
               className="bg-gray-100 p-3 rounded-lg mb-4 text-base text-gray-700"
               placeholder="Phone"
               value={tempContact.phone}
-              onChangeText={(text) => setTempContact({ ...tempContact, phone: text })}
+              onChangeText={(text) =>
+                setTempContact({ ...tempContact, phone: text })
+              }
             />
             <View className="flex-row justify-between">
               <TouchableOpacity
@@ -636,7 +747,8 @@ const Profile = () => {
         <View className="flex-1 justify-end bg-black/50">
           <View className="bg-white p-6 rounded-t-3xl">
             <Text className="text-xl font-bold text-gray-800 mb-4">
-              Edit Career Objective</Text>
+              Edit Career Objective
+            </Text>
             <TextInput
               className="bg-gray-100 p-3 rounded-lg mb-4 text-base text-gray-700"
               value={tempObjective}
@@ -648,13 +760,17 @@ const Profile = () => {
                 className="flex-1 bg-purple-500 p-3 rounded-lg mr-2"
                 onPress={saveObjective}
               >
-                <Text className="text-white text-center font-semibold">Save</Text>
+                <Text className="text-white text-center font-semibold">
+                  Save
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 className="flex-1 bg-gray-300 p-3 rounded-lg ml-2"
                 onPress={() => setEditObjectiveModalVisible(false)}
               >
-                <Text className="text-gray-800 text-center font-semibold">Cancel</Text>
+                <Text className="text-gray-800 text-center font-semibold">
+                  Cancel
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -675,10 +791,19 @@ const Profile = () => {
             </Text>
             <View className="flex-row flex-wrap mb-4">
               {tempSkills.map((skill, index) => (
-                <View key={index} className="bg-purple-100 flex-row items-center rounded-full px-3 py-1.5 mr-2 mb-2">
-                  <Text className="text-purple-700 text-sm font-semibold mr-1">{skill}</Text>
+                <View
+                  key={index}
+                  className="bg-purple-100 flex-row items-center rounded-full px-3 py-1.5 mr-2 mb-2"
+                >
+                  <Text className="text-purple-700 text-sm font-semibold mr-1">
+                    {skill}
+                  </Text>
                   <TouchableOpacity onPress={() => removeSkill(skill)}>
-                    <MaterialCommunityIcons name="close-circle" size={16} color="#6366F1" />
+                    <MaterialCommunityIcons
+                      name="close-circle"
+                      size={16}
+                      color="#6366F1"
+                    />
                   </TouchableOpacity>
                 </View>
               ))}
@@ -705,13 +830,17 @@ const Profile = () => {
                 className="flex-1 bg-purple-500 p-3 rounded-lg mr-2"
                 onPress={saveSkills}
               >
-                <Text className="text-white text-center font-semibold">Save</Text>
+                <Text className="text-white text-center font-semibold">
+                  Save
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 className="flex-1 bg-gray-300 p-3 rounded-lg ml-2"
                 onPress={() => setEditSkillsModalVisible(false)}
               >
-                <Text className="text-gray-800 text-center font-semibold">Cancel</Text>
+                <Text className="text-gray-800 text-center font-semibold">
+                  Cancel
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -731,7 +860,9 @@ const Profile = () => {
               <Text className="text-xl font-bold text-gray-800">
                 Edit Education
               </Text>
-              <TouchableOpacity onPress={() => setEditEducationModalVisible(false)}>
+              <TouchableOpacity
+                onPress={() => setEditEducationModalVisible(false)}
+              >
                 <AntDesign name="close" size={24} color="#6B7280" />
               </TouchableOpacity>
             </View>
@@ -740,19 +871,21 @@ const Profile = () => {
                 <Text className="text-lg font-semibold text-gray-800 mb-2">
                   {tempEducation[editingEducationIndex]?.level || ""}
                 </Text>
-                
+
                 <Text className="text-sm text-gray-500 mb-1">Institution</Text>
                 <TextInput
                   className="bg-gray-100 p-3 rounded-lg mb-2 text-base text-gray-700"
                   placeholder="Institution"
-                  value={tempEducation[editingEducationIndex]?.institution || ""}
+                  value={
+                    tempEducation[editingEducationIndex]?.institution || ""
+                  }
                   onChangeText={(text) => {
                     const updated = [...tempEducation];
                     updated[editingEducationIndex].institution = text;
                     setTempEducation(updated);
                   }}
                 />
-                
+
                 <Text className="text-sm text-gray-500 mb-1">Year</Text>
                 <TextInput
                   className="bg-gray-100 p-3 rounded-lg mb-2 text-base text-gray-700"
@@ -764,7 +897,7 @@ const Profile = () => {
                     setTempEducation(updated);
                   }}
                 />
-                
+
                 <Text className="text-sm text-gray-500 mb-1">Score</Text>
                 <TextInput
                   className="bg-gray-100 p-3 rounded-lg text-base text-gray-700"
@@ -776,7 +909,7 @@ const Profile = () => {
                     setTempEducation(updated);
                   }}
                 />
-                
+
                 <View className="flex-row justify-between mt-6">
                   <TouchableOpacity
                     className="flex-1 bg-red-500 p-3 rounded-lg mr-2 items-center"
@@ -788,7 +921,9 @@ const Profile = () => {
                     className="flex-1 bg-purple-500 p-3 rounded-lg mr-2 items-center"
                     onPress={saveEducation}
                   >
-                    <Text className="text-white font-semibold">Save Changes</Text>
+                    <Text className="text-white font-semibold">
+                      Save Changes
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     className="flex-1 bg-gray-300 p-3 rounded-lg items-center"
@@ -816,7 +951,9 @@ const Profile = () => {
               <Text className="text-xl font-bold text-gray-800">
                 Edit Project
               </Text>
-              <TouchableOpacity onPress={() => setEditProjectsModalVisible(false)}>
+              <TouchableOpacity
+                onPress={() => setEditProjectsModalVisible(false)}
+              >
                 <AntDesign name="close" size={24} color="#6B7280" />
               </TouchableOpacity>
             </View>
@@ -825,7 +962,7 @@ const Profile = () => {
                 <Text className="text-lg font-semibold text-gray-800 mb-2">
                   {tempProjects[editingProjectIndex]?.title || ""}
                 </Text>
-                
+
                 <Text className="text-sm text-gray-500 mb-1">Title</Text>
                 <TextInput
                   className="bg-gray-100 p-3 rounded-lg mb-2 text-base text-gray-700"
@@ -850,17 +987,32 @@ const Profile = () => {
                   }}
                   multiline
                 />
-                
-                <Text className="text-sm text-gray-500 mb-1 mt-2">Technologies Used</Text>
+
+                <Text className="text-sm text-gray-500 mb-1 mt-2">
+                  Technologies Used
+                </Text>
                 <View className="flex-row flex-wrap mb-4">
-                  {(tempProjects[editingProjectIndex]?.tech || []).map((skill, index) => (
-                    <View key={index} className="bg-purple-100 flex-row items-center rounded-full px-3 py-1.5 mr-2 mb-2">
-                      <Text className="text-purple-700 text-sm font-semibold mr-1">{skill}</Text>
-                      <TouchableOpacity onPress={() => removeProjectSkill(skill)}>
-                        <MaterialCommunityIcons name="close-circle" size={16} color="#6366F1" />
-                      </TouchableOpacity>
-                    </View>
-                  ))}
+                  {(tempProjects[editingProjectIndex]?.tech || []).map(
+                    (skill, index) => (
+                      <View
+                        key={index}
+                        className="bg-purple-100 flex-row items-center rounded-full px-3 py-1.5 mr-2 mb-2"
+                      >
+                        <Text className="text-purple-700 text-sm font-semibold mr-1">
+                          {skill}
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() => removeProjectSkill(skill)}
+                        >
+                          <MaterialCommunityIcons
+                            name="close-circle"
+                            size={16}
+                            color="#6366F1"
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    )
+                  )}
                 </View>
                 <TextInput
                   className="bg-gray-100 p-3 rounded-lg mb-2 text-base text-gray-700"
@@ -871,7 +1023,10 @@ const Profile = () => {
                 {projectSuggestions.length > 0 && (
                   <ScrollView className="max-h-[150px] bg-gray-100 rounded-lg mb-4">
                     {projectSuggestions.map((skill, index) => (
-                      <TouchableOpacity key={index} onPress={() => addProjectSkill(skill)}>
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() => addProjectSkill(skill)}
+                      >
                         <Text className="p-3 text-base text-gray-700 border-b border-gray-200">
                           {skill}
                         </Text>
@@ -893,9 +1048,13 @@ const Profile = () => {
                 />
 
                 <View className="flex-row items-center justify-between mb-2">
-                  <Text className="text-sm text-gray-500">Currently going on?</Text>
+                  <Text className="text-sm text-gray-500">
+                    Currently going on?
+                  </Text>
                   <Switch
-                    value={tempProjects[editingProjectIndex]?.isOngoing || false}
+                    value={
+                      tempProjects[editingProjectIndex]?.isOngoing || false
+                    }
                     onValueChange={(value) => {
                       const updated = [...tempProjects];
                       updated[editingProjectIndex].isOngoing = value;
@@ -977,7 +1136,7 @@ const Profile = () => {
                     setTempCertifications(updated);
                   }}
                 />
-                
+
                 <Text className="text-sm text-gray-500 mb-1">Organization</Text>
                 <TextInput
                   className="bg-gray-100 p-3 rounded-lg mb-2 text-base text-gray-700"
@@ -989,7 +1148,7 @@ const Profile = () => {
                     setTempCertifications(updated);
                   }}
                 />
-                
+
                 <Text className="text-sm text-gray-500 mb-1">Location</Text>
                 <TextInput
                   className="bg-gray-100 p-3 rounded-lg mb-2 text-base text-gray-700"
@@ -1001,12 +1160,14 @@ const Profile = () => {
                     setTempCertifications(updated);
                   }}
                 />
-                
+
                 <Text className="text-sm text-gray-500 mb-1">Description</Text>
                 <TextInput
                   className="bg-gray-100 p-3 rounded-lg mb-2 text-base text-gray-700"
                   placeholder="Description"
-                  value={tempCertifications[editingCertIndex]?.description || ""}
+                  value={
+                    tempCertifications[editingCertIndex]?.description || ""
+                  }
                   onChangeText={(text) => {
                     const updated = [...tempCertifications];
                     updated[editingCertIndex].description = text;
@@ -1014,17 +1175,30 @@ const Profile = () => {
                   }}
                   multiline
                 />
-                
+
                 <Text className="text-sm text-gray-500 mb-1 mt-2">Skills</Text>
                 <View className="flex-row flex-wrap mb-4">
-                  {(tempCertifications[editingCertIndex]?.skills || []).map((skill, index) => (
-                    <View key={index} className="bg-purple-100 flex-row items-center rounded-full px-3 py-1.5 mr-2 mb-2">
-                      <Text className="text-purple-700 text-sm font-semibold mr-1">{skill}</Text>
-                      <TouchableOpacity onPress={() => removeCertSkill(skill)}>
-                        <MaterialCommunityIcons name="close-circle" size={16} color="#6366F1" />
-                      </TouchableOpacity>
-                    </View>
-                  ))}
+                  {(tempCertifications[editingCertIndex]?.skills || []).map(
+                    (skill, index) => (
+                      <View
+                        key={index}
+                        className="bg-purple-100 flex-row items-center rounded-full px-3 py-1.5 mr-2 mb-2"
+                      >
+                        <Text className="text-purple-700 text-sm font-semibold mr-1">
+                          {skill}
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() => removeCertSkill(skill)}
+                        >
+                          <MaterialCommunityIcons
+                            name="close-circle"
+                            size={16}
+                            color="#6366F1"
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    )
+                  )}
                 </View>
                 <TextInput
                   className="bg-gray-100 p-3 rounded-lg mb-2 text-base text-gray-700"
@@ -1035,7 +1209,10 @@ const Profile = () => {
                 {certSuggestions.length > 0 && (
                   <ScrollView className="max-h-[150px] bg-gray-100 rounded-lg mb-4">
                     {certSuggestions.map((skill, index) => (
-                      <TouchableOpacity key={index} onPress={() => addCertSkill(skill)}>
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() => addCertSkill(skill)}
+                      >
                         <Text className="p-3 text-base text-gray-700 border-b border-gray-200">
                           {skill}
                         </Text>
@@ -1057,9 +1234,13 @@ const Profile = () => {
                 />
 
                 <View className="flex-row items-center justify-between mb-2">
-                  <Text className="text-sm text-gray-500">Currently ongoing?</Text>
+                  <Text className="text-sm text-gray-500">
+                    Currently ongoing?
+                  </Text>
                   <Switch
-                    value={tempCertifications[editingCertIndex]?.isOngoing || false}
+                    value={
+                      tempCertifications[editingCertIndex]?.isOngoing || false
+                    }
                     onValueChange={(value) => {
                       const updated = [...tempCertifications];
                       updated[editingCertIndex].isOngoing = value;
@@ -1075,7 +1256,9 @@ const Profile = () => {
                     <TextInput
                       className="bg-gray-100 p-3 rounded-lg text-base text-gray-700"
                       placeholder="e.g., Mar 2023"
-                      value={tempCertifications[editingCertIndex]?.endDate || ""}
+                      value={
+                        tempCertifications[editingCertIndex]?.endDate || ""
+                      }
                       onChangeText={(text) => {
                         const updated = [...tempCertifications];
                         updated[editingCertIndex].endDate = text;

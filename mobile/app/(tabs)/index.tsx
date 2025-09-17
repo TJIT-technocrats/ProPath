@@ -19,6 +19,8 @@ import axios from "axios";
 const Index: React.FC = () => {
   const router = useRouter();
   const [quotes, setQuotes] = useState<any[]>([]);
+  const [userName, setUserName] = useState<string>("");
+
   const getQuote = async () => {
     try {
       const response = await axios.get("https://zenquotes.io/api/today");
@@ -27,9 +29,38 @@ const Index: React.FC = () => {
       console.log(`erorr :${error.message}`);
     }
   };
+
+  const getUserProfile = async () => {
+    try {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError) throw userError;
+
+      if (user?.id) {
+        const { data, error } = await supabase
+          .from("users")
+          .select("full_name")
+          .eq("id", user.id)
+          .single();
+
+        if (error) {
+          console.warn("Could not fetch user profile:", error.message);
+        } else if (data) {
+          setUserName(data.full_name);
+        }
+      }
+    } catch (err) {
+      console.error("getUserProfile error", err);
+    }
+  };
+
   useEffect(() => {
     getQuote();
+    getUserProfile();
   }, []);
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -42,14 +73,16 @@ const Index: React.FC = () => {
             <AntDesign name="user" size={40} color="white" />
           </View>
           <View>
-            <Text className="text-lg font-bold text-gray-900">Hi Yugi</Text>
+            <Text className="text-lg font-bold text-gray-900">
+              {userName ? `Hi ${userName}` : "Hi Student"}
+            </Text>
             <Text className="text-sm text-gray-500">Welcome back 👋</Text>
           </View>
         </View>
         <View className="flex-row items-center space-x-4">
-          <TouchableOpacity className="bg-purple-500 p-3 mr-2 rounded-full">
+          {/* <TouchableOpacity className="bg-purple-500 p-3 mr-2 rounded-full">
             <Ionicons name="notifications-outline" size={20} color="#fff" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <Pressable
             onPress={async () => {
               await supabase.auth.signOut();
@@ -61,8 +94,6 @@ const Index: React.FC = () => {
           </Pressable>
         </View>
       </View>
-
-      {/* ===== STATS CARDS ===== */}
       <View className="flex-row justify-between mx-4 mt-6">
         <View className="flex-1 mx-1 bg-yellow-100 rounded-3xl p-4 items-center shadow-sm">
           <MaterialIcons name="library-books" size={32} color="#D97706" />
@@ -80,8 +111,6 @@ const Index: React.FC = () => {
           <Text className="text-sm text-gray-600">Avg Package</Text>
         </View>
       </View>
-
-      {/* ===== QUOTE CARD ===== */}
       <View className="bg-white rounded-3xl mx-4 mt-6 p-6 shadow-md">
         <View className="flex-row items-center mb-3">
           <Ionicons name="heart-outline" size={22} color="#7C3AED" />
@@ -94,11 +123,8 @@ const Index: React.FC = () => {
             &quot;{quotes.length > 0 && quotes[0].q}&quot; -{" "}
             {quotes.length > 0 && ` ${quotes[0].a}`}
           </Text>
-          <Text className="text-base text-gray-700 italic"></Text>
         </View>
       </View>
-
-      {/* ===== UPCOMING PLACEMENTS ===== */}
       <View className="mx-4 mt-8 mb-6">
         <View className="flex-row items-center justify-between mb-4">
           <Text className="text-xl font-semibold text-gray-900">

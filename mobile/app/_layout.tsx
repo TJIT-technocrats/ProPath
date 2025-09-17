@@ -3,7 +3,7 @@ import "../global.css";
 import { useEffect, useState } from "react";
 import { StatusBar, Text, View } from "react-native";
 import { supabase } from "@/lib/supabaseClient";
-import AuthScreen from "./(auth)/auth"; // new combined login/signup
+import AuthScreen from "./(auth)/auth";
 
 export default function RootLayout() {
   const [session, setSession] = useState<any>(null);

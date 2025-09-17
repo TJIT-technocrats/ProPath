@@ -5,6 +5,7 @@ import {
   ScrollView,
   ActivityIndicator,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter, useLocalSearchParams } from "expo-router";
@@ -136,7 +137,7 @@ export default function CompanyDetails() {
           </Text>
         ))}
       </View>
-      <View className="bg-white rounded-2xl mx-5 p-6 mt-6 mb-20 shadow-lg">
+      <View className="bg-white rounded-2xl mx-5 p-6 mt-6 mb-10 shadow-lg">
         <Text className="text-xl font-bold text-gray-800 mb-4">
           Selection Process
         </Text>
@@ -145,6 +146,19 @@ export default function CompanyDetails() {
             {idx + 1}. {item}
           </Text>
         ))}
+      </View>
+      <View className="flex items-center justify-center">
+        <Pressable
+          onPress={() => {
+            router.push({
+              pathname: "/AttemptAptitude",
+              params: { companyId: company.id },
+            });
+          }}
+          className="h-[4em] w-[95%] rounded-xl bg-purple-500 flex items-center justify-center"
+        >
+          <Text className="text-white text-xl">Start Aptitude</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );

@@ -12,7 +12,7 @@ const TestPage = () => {
       showsVerticalScrollIndicator={false}
       className="bg-gray-100 flex-1"
     >
-      <View className="bg-blue-600 pt-12 pb-8 rounded-b-3xl shadow-lg">
+      <View className="bg-purple-600 pt-12 pb-8 rounded-b-3xl shadow-lg">
         <View className="flex-row items-center justify-between px-6 mb-6">
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={28} color="white" />
@@ -129,7 +129,7 @@ const TestPage = () => {
 
         <TouchableOpacity
           onPress={() => setModalVisible(true)}
-          className="bg-blue-600 rounded-xl py-4 items-center shadow-md"
+          className="bg-purple-600 rounded-xl py-4 items-center shadow-md"
         >
           <Text className="text-white text-lg font-semibold">Start Test</Text>
         </TouchableOpacity>
@@ -153,7 +153,7 @@ const TestPage = () => {
             </Text>
             <View className="flex-row justify-between">
               <TouchableOpacity
-                className="flex-1 bg-blue-600 p-3 rounded-xl mr-2"
+                className="flex-1 bg-purple-600 p-3 rounded-xl mr-2"
                 onPress={() => {
                   setModalVisible(false);
                   alert("Test Started!");
