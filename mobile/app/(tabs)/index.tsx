@@ -15,6 +15,7 @@ import UpcomingPlacements from "@/components/UpcomingPlacements";
 import { supabase } from "@/lib/supabaseClient";
 import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
+import AttemptedAptitudes from "@/components/AttemptedAptitudes";
 
 const Index: React.FC = () => {
   const router = useRouter();
@@ -126,6 +127,13 @@ const Index: React.FC = () => {
         </View>
       </View>
       <View className="mx-4 mt-8 mb-6">
+        <View className="mb-6">
+          <Text className="text-xl font-semibold text-gray-900 mb-4">
+            Attempted Aptitudes
+          </Text>
+          <AttemptedAptitudes />
+        </View>
+
         <View className="flex-row items-center justify-between mb-4">
           <Text className="text-xl font-semibold text-gray-900">
             Upcoming Placements
