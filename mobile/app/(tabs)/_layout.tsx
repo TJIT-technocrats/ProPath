@@ -1,57 +1,3 @@
-// import React from "react";
-// import { Tabs } from "expo-router";
-// import Ionicons from "react-native-vector-icons/Ionicons";
-// import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-// import FontAwesome from "react-native-vector-icons/FontAwesome";
-
-// const NavLayout: React.FC = () => {
-//   return (
-//     <Tabs
-//       screenOptions={{
-//         tabBarShowLabel: false,
-//         tabBarActiveTintColor: "white",
-//         tabBarInactiveTintColor: "white",
-//         tabBarStyle: {
-//           paddingBottom: 20,
-//           paddingTop: 5,
-//           height: 55,
-//           width: "100%",
-//           backgroundColor: "#A855F7",
-//         },
-//       }}
-//     >
-//       <Tabs.Screen
-//         name="index"
-//         options={{
-//           headerShown: false,
-//           tabBarIcon: ({ focused, color }) => (
-//             <Ionicons name="home" color={color} size={31} />
-//           ),
-//         }}
-//       />
-//       <Tabs.Screen
-//         name="PlacementInfo"
-//         options={{
-//           headerShown: false,
-//           tabBarIcon: ({ focused, color }) => (
-//             <MaterialIcons name="library-books" color={color} size={31} />
-//           ),
-//         }}
-//       />
-//       <Tabs.Screen
-//         name="Profile"
-//         options={{
-//           headerShown: false,
-//           tabBarIcon: ({ focused, color }) => (
-//             <FontAwesome name="user" color={color} size={31} />
-//           ),
-//         }}
-//       />
-//     </Tabs>
-//   );
-// };
-
-// export default NavLayout;
 import React from "react";
 import { Tabs } from "expo-router";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -66,14 +12,19 @@ const NavLayout: React.FC = () => {
     <Tabs
       screenOptions={{
         tabBarShowLabel: false,
-        tabBarActiveTintColor: "white",
-        tabBarInactiveTintColor: "white",
+        tabBarActiveTintColor: "#FFFFFF",
+        tabBarInactiveTintColor: "#D8DAFF",
         tabBarStyle: {
-          // add insets.bottom to make sure it's above gesture area
-          paddingBottom: insets.bottom > 0 ? insets.bottom : 6,
-          paddingTop: 6,
-          height: 55 + insets.bottom, // increase height accordingly
-          backgroundColor: "#A855F7",
+          paddingBottom: insets.bottom > 0 ? insets.bottom : 8,
+          paddingTop: 8,
+          height: 50 + insets.bottom,
+          backgroundColor: "#8B5CF6",
+          borderTopWidth: 0,
+          elevation: 0,
+          shadowOpacity: 0,
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
+          position: 'absolute',
         },
       }}
     >

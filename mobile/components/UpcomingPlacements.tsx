@@ -35,7 +35,7 @@ export default function UpcomingPlacements() {
       if (error) {
         console.log("Error fetching companies", error);
       } else {
-        console.log("Companies fetched:", data); // 👈 check your salary field here
+        console.log("Companies fetched:", data);
         setCompanies(data as Company[]);
       }
       setLoading(false);
@@ -53,10 +53,10 @@ export default function UpcomingPlacements() {
       }
       style={{
         backgroundColor: "white",
-        width: 280,
+        width: 300, // Slightly increased width to accommodate new layout
         marginRight: 16,
         borderRadius: 24,
-        padding: 16,
+        padding: 20, // Increased padding for a spacious look
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
@@ -64,91 +64,107 @@ export default function UpcomingPlacements() {
         elevation: 4,
       }}
     >
-      {/* top section with icon */}
+      {/* Top section with icon and company name/type */}
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
-          marginBottom: 12,
+          marginBottom: 16, // Increased margin for spacing
         }}
       >
         <View
           style={{
-            width: 60,
-            height: 60,
-            borderRadius: 16,
-            backgroundColor: "#EDE9FE",
+            width: 50, // Slightly smaller icon container
+            height: 50,
+            borderRadius: 12, // More rounded corners
+            backgroundColor: "#F3F4F6", // Lighter background for icon
             alignItems: "center",
             justifyContent: "center",
             marginRight: 12,
           }}
         >
-          <MaterialCommunityIcons name="briefcase" size={32} color="#7C3AED" />
+          <MaterialCommunityIcons name="briefcase" size={28} color="#8B5CF6" /> {/* Darker icon color */}
         </View>
         <View style={{ flexShrink: 1 }}>
           <Text
             style={{
-              fontSize: 18,
+              fontSize: 20, // Bigger font size for company name
               fontWeight: "bold",
               color: "#1F2937",
             }}
           >
             {item.company_name}
           </Text>
-          <Text style={{ fontSize: 14, color: "#6B7280" }}>{item.type}</Text>
+          <Text style={{ fontSize: 15, color: "#6B7280" }}>{item.type}</Text> {/* Adjusted font size */}
         </View>
       </View>
 
-      {/* salary */}
+      {/* Salary/Stipend Info */}
       {item.salary_or_stipend ? (
         <Text
           style={{
             fontSize: 16,
-            fontWeight: "600",
-            color: "#059669",
-            marginBottom: 8,
+            fontWeight: "500", // Slightly lighter weight
+            color: "#4B5563", // Darker gray for better contrast
+            marginBottom: 20, // Increased margin for spacing
           }}
         >
-          💰 {item.salary_or_stipend}
+          {item.salary_or_stipend}
         </Text>
       ) : (
-        <Text style={{ fontSize: 14, color: "#9CA3AF", marginBottom: 8 }}>
+        <Text style={{ fontSize: 16, color: "#4B5563", marginBottom: 20 }}> {/* Adjusted font size and color */}
           No salary/stipend info
         </Text>
       )}
 
-      {/* interview date */}
-      <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 12 }}>
-        <Ionicons name="calendar-outline" size={18} color="#6B7280" />
-        <Text style={{ fontSize: 14, color: "#6B7280", marginLeft: 6 }}>
-          {new Date(item.interview_date).toDateString()}
-        </Text>
-      </View>
+      {/* Status badge and interview date */}
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+        {/* Status badge */}
+        <View
+          style={{
+            backgroundColor: "#D1FAE5", // Light green background
+            paddingHorizontal: 16, // Wider padding
+            paddingVertical: 8, // Taller padding
+            borderRadius: 20, // Fully rounded capsule shape
+            marginRight: 10, // Space between badge and date
+          }}
+        >
+          <Text style={{ fontSize: 14, fontWeight: "600", color: "#059669" }}> {/* Slightly larger text */}
+            OPEN
+          </Text>
+        </View>
 
-      {/* status badge */}
-      <View
-        style={{
-          alignSelf: "flex-start",
-          backgroundColor: "#D1FAE5",
-          paddingHorizontal: 12,
-          paddingVertical: 6,
-          borderRadius: 20,
-        }}
-      >
-        <Text style={{ fontSize: 12, fontWeight: "600", color: "#059669" }}>
-          Open
-        </Text>
+        {/* Interview Date */}
+        <View style={{ 
+          flexDirection: "row", 
+          alignItems: "center",
+          backgroundColor: "#1F2937", // Dark background for date
+          paddingHorizontal: 16, // Padding for the date box
+          paddingVertical: 8,
+          borderRadius: 20, // Rounded corners for date box
+        }}>
+          <Ionicons name="calendar" size={18} color="white" /> {/* Filled calendar icon, white color */}
+          <Text style={{ fontSize: 14, color: "white", fontWeight: "600", marginLeft: 8 }}> {/* White text, bolder */}
+            {new Date(item.interview_date).toDateString().substring(0, 10).toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase())} {/* Format date to match image "Wed Sept 24 2025" */}
+          </Text>
+        </View>
       </View>
     </Pressable>
   );
 
-  if (loading) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#7C3AED" />
-      </View>
-    );
-  }
+if (loading) {
+  return (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <ActivityIndicator size="large" color="#7C3AED" />
+    </View>
+  );
+}
 
   return (
     <FlatList
@@ -161,4 +177,3 @@ export default function UpcomingPlacements() {
     />
   );
 }
-
