@@ -485,9 +485,7 @@ const Profile = () => {
         {/* Career Objective */}
         <View className="bg-white p-5 rounded-2xl mb-5 shadow-md">
           <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-xl font-bold text-gray-800">
-              Career Objective
-            </Text>
+            <Text className="text-xl font-bold text-gray-800">Career Objective</Text>
             <TouchableOpacity
               onPress={() => {
                 setTempObjective(objective);
@@ -513,15 +511,13 @@ const Profile = () => {
               <AntDesign name="edit" size={22} color="#6366F1" />
             </TouchableOpacity>
           </View>
-          <View className="flex-row flex-wrap items-center gap-x-2 gap-y-2">
+          <View style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -4 }}>
             {skills.map((skill, index) => (
               <View
                 key={index}
-                className="bg-purple-100 flex items-center justify-center"
+                style={{ margin: 4, backgroundColor: "#EDE9FE", borderRadius: 999, paddingHorizontal: 8, paddingVertical: 4 }}
               >
-                <Text className=" text-purple-700 px-3 py-1.5 rounded-full mr-2 mb-2 text-sm font-semibold">
-                  {skill}
-                </Text>
+                <Text style={{ color: "#7C3AED", fontSize: 12, fontWeight: "600" }}>{skill}</Text>
               </View>
             ))}
           </View>
@@ -541,9 +537,7 @@ const Profile = () => {
               className="bg-gray-50 p-4 rounded-xl mb-3 shadow-sm flex-row justify-between items-center"
             >
               <View className="flex-1">
-                <Text className="text-lg font-bold text-gray-800">
-                  {edu.level}
-                </Text>
+                <Text className="text-lg font-bold text-gray-800">{edu.level}</Text>
                 <Text className="text-sm text-purple-600 mb-1">
                   {edu.institution} | {edu.year}
                 </Text>
@@ -552,8 +546,7 @@ const Profile = () => {
               <TouchableOpacity
                 onPress={() => {
                   setEditingEducationIndex(index);
-                  const temp = [...education];
-                  setTempEducation(temp);
+                  setTempEducation([...education]);
                   setEditEducationModalVisible(true);
                 }}
               >
@@ -577,23 +570,19 @@ const Profile = () => {
               className="bg-gray-50 p-4 rounded-xl mb-3 shadow-sm flex-row justify-between items-center"
             >
               <View className="flex-1">
-                <Text className="text-lg font-bold text-gray-800">
-                  {project.title}
-                </Text>
+                <Text className="text-lg font-bold text-gray-800">{project.title}</Text>
                 <Text className="text-sm text-purple-600 mb-1">
                   {project.tech.join(", ")}
                 </Text>
                 <Text className="text-sm text-gray-600">{project.desc}</Text>
                 <Text className="text-xs text-gray-400 mt-2">
-                  {project.startDate} -{" "}
-                  {project.isOngoing ? "Present" : project.endDate}
+                  {project.startDate} - {project.isOngoing ? "Present" : project.endDate}
                 </Text>
               </View>
               <TouchableOpacity
                 onPress={() => {
                   setEditingProjectIndex(index);
-                  const temp = [...projects];
-                  setTempProjects(temp);
+                  setTempProjects([...projects]);
                   setEditProjectsModalVisible(true);
                 }}
               >

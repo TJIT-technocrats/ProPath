@@ -18,7 +18,7 @@ const NavLayout: React.FC = () => {
           paddingBottom: insets.bottom > 0 ? insets.bottom : 8,
           paddingTop: 8,
           height: 50 + insets.bottom,
-          backgroundColor: "#8B5CF6",
+          backgroundColor: "#7260C1",
           borderTopWidth: 0,
           elevation: 0,
           shadowOpacity: 0,

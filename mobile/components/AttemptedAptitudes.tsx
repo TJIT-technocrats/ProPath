@@ -45,20 +45,26 @@ export default function AttemptedAptitudes() {
         }
         const aptitudeIds = Array.from(aptitudeIdsSet);
 
-        const { data: aptitudeData } = await supabase
+        const { data: aptitudeDataRaw } = await supabase
           .from("aptitudes")
           .select("id, title, company_id")
           .in("id", aptitudeIds);
 
+        const aptitudeData = aptitudeDataRaw ?? []; // ✅ fallback to []
         const companyIds = aptitudeData.map((apt: any) => apt.company_id);
-        const { data: companyData } = await supabase
+
+        const { data: companyDataRaw } = await supabase
           .from("company_details")
           .select("id, company_name")
           .in("id", companyIds);
 
-        const { data: questionsData } = await supabase
+        const companyData = companyDataRaw ?? []; // ✅ fallback to []
+
+        const { data: questionsDataRaw } = await supabase
           .from("aptitude_questions")
           .select("aptitude_id, marks");
+
+        const questionsData = questionsDataRaw ?? []; // ✅ fallback to []
 
         const totalMarksMap: { [key: number]: number } = {};
         questionsData.forEach((q: any) => {
@@ -75,6 +81,7 @@ export default function AttemptedAptitudes() {
             obtained_marks: aptitudeScores[apt.id].obtained || 0,
           };
         });
+
 
         setAttempts(finalAttempts);
       } catch (error: any) {
@@ -130,13 +137,13 @@ export default function AttemptedAptitudes() {
       <View
         style={{
           alignSelf: "flex-start",
-          backgroundColor: "#DDD6FE",
+          backgroundColor: "#24222E",
           paddingHorizontal: 12,
           paddingVertical: 6,
           borderRadius: 20,
         }}
       >
-        <Text style={{ fontSize: 14, fontWeight: "600", color: "#7C3AED" }}>
+        <Text style={{ fontSize: 14, fontWeight: "600", color: "#ffffff" }}>
           Score: {item.obtained_marks} / {item.total_marks}
         </Text>
       </View>

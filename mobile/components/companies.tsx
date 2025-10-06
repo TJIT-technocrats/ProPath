@@ -29,20 +29,30 @@ const CompanyCard = ({ company, index }: { company: Company; index: number }) =>
   const getFormattedDate = (dateString: string) => {
     const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = {
-      weekday: 'short',
-      month: 'short',
-      day: '2-digit',
-      year: 'numeric'
+      weekday: "short",
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
     };
-    return date.toLocaleDateString('en-US', options).toUpperCase().replace(/,/, '');
+    return date
+      .toLocaleDateString("en-US", options)
+      .toUpperCase()
+      .replace(/,/, "");
   };
-  
-  const cardBackgroundColor = index % 2 === 0 ? "#DBDCFF" : "#F3F4F6";
+
+  const cardBackgroundColor = index % 2 === 0 ? "#DBDCFF" : "#DFE9FB";
 
   return (
     <Pressable
       className="p-5 my-3 rounded-3xl shadow-lg relative"
-      style={{ backgroundColor: cardBackgroundColor, shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 6, elevation: 4 }}
+      style={{
+        backgroundColor: cardBackgroundColor,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        elevation: 4,
+      }}
       onPress={() =>
         router.push({
           pathname: "/CompanyDetails",
@@ -63,13 +73,13 @@ const CompanyCard = ({ company, index }: { company: Company; index: number }) =>
           </View>
         </View>
         <View
-          className={`px-4 py-1 rounded-full self-start`}
+          className="px-4 py-1 rounded-full self-start"
           style={{
             backgroundColor: company.status === "Open" ? "#D1FAE5" : "#DC2626",
           }}
         >
           <Text
-            className={`text-sm font-bold`}
+            className="text-sm font-bold"
             style={{
               color: company.status === "Open" ? "#059669" : "#DC2626",
             }}
@@ -79,13 +89,20 @@ const CompanyCard = ({ company, index }: { company: Company; index: number }) =>
         </View>
       </View>
       <View className="flex-row items-center mb-2">
-        <View className="flex-row items-center py-2 px-3 rounded-xl mr-2" style={{ backgroundColor: "#8B5CF6" }}>
+        <View
+          className="flex-row items-center py-2 px-3 rounded-xl mr-2"
+          style={{ backgroundColor: "#AA85FA" }}
+        >
           <Ionicons name="cash-outline" size={16} color="white" />
           <Text className="text-xs font-semibold text-white ml-1">
             {company.salary}
           </Text>
         </View>
-        <View className="flex-row items-center py-2 px-3 rounded-xl" style={{ backgroundColor: "#ffffff" }}>
+
+        <View
+          className="flex-row items-center py-2 px-3 rounded-xl"
+          style={{ backgroundColor: "#ffffff" }}
+        >
           <Ionicons name="location-outline" size={12} color="black" />
           <Text className="text-xs font-semibold text-black ml-1">
             {company.location}
@@ -93,13 +110,20 @@ const CompanyCard = ({ company, index }: { company: Company; index: number }) =>
         </View>
       </View>
       <View className="flex-row items-center">
-        <View className="flex-row items-center py-2 px-3 rounded-xl mr-2" style={{ backgroundColor: "#6366f1" }}>
+        <View
+          className="flex-row items-center py-2 px-3 rounded-xl mr-2"
+          style={{ backgroundColor: "#9193F7" }}
+        >
           <Ionicons name="school-outline" size={12} color="white" />
           <Text className="text-xs font-semibold text-white ml-1">
             {company.cgpa_required}
           </Text>
         </View>
-        <View className="flex-row items-center py-2 px-3 rounded-xl" style={{ backgroundColor: "#1f2937" }}>
+
+        <View
+          className="flex-row items-center py-2 px-3 rounded-xl"
+          style={{ backgroundColor: "#2F496E" }}
+        >
           <Ionicons name="calendar-outline" size={12} color="white" />
           <Text className="text-xs font-semibold text-white ml-1">
             {getFormattedDate(company.last_date)}
@@ -108,9 +132,21 @@ const CompanyCard = ({ company, index }: { company: Company; index: number }) =>
       </View>
       <View
         className="absolute bottom-5 right-5 w-12 h-12 rounded-full items-center justify-center shadow-lg"
-        style={{ backgroundColor: "#6366f1", shadowColor: "#6366f1", shadowOpacity: 0.5, shadowRadius: 10, elevation: 5 }}
+        style={{
+          backgroundColor: "#6366f1",
+          shadowColor: "#6366f1",
+          shadowOpacity: 0.5,
+          shadowRadius: 10,
+          elevation: 5,
+        }}
       >
-        <Ionicons name="arrow-up" size={24} color="white" style={{ transform: [{ rotate: '45deg' }] }} />
+        {/* ✅ Changed invalid icon name */}
+        <Ionicons
+          name="arrow-up-outline"
+          size={24}
+          color="white"
+          style={{ transform: [{ rotate: "45deg" }] }}
+        />
       </View>
     </Pressable>
   );
@@ -154,18 +190,12 @@ export default function Companies() {
       if (sortBy === "company_name")
         return a.company_name.localeCompare(b.company_name);
       if (sortBy === "salary") {
-        const salaryA = parseFloat(
-          a.salary.replace("₹", "").replace(" LPA", "")
-        );
-        const salaryB = parseFloat(
-          b.salary.replace("₹", "").replace(" LPA", "")
-        );
+        const salaryA = parseFloat(a.salary.replace("₹", "").replace(" LPA", ""));
+        const salaryB = parseFloat(b.salary.replace("₹", "").replace(" LPA", ""));
         return salaryB - salaryA;
       }
       if (sortBy === "last_date")
-        return (
-          new Date(a.last_date).getTime() - new Date(b.last_date).getTime()
-        );
+        return new Date(a.last_date).getTime() - new Date(b.last_date).getTime();
       return 0;
     });
 
@@ -184,15 +214,15 @@ export default function Companies() {
               />
             </View>
           </View>
-          <View>
-            <TouchableOpacity
-              className="p-3 rounded-full shadow-sm" 
-              onPress={() => setFilterModalVisible(true)}
-            >
-              <Ionicons name="filter" size={20} color="#6366f1" />
-            </TouchableOpacity>
-          </View>
+
+          <TouchableOpacity
+            className="p-3 rounded-full shadow-sm"
+            onPress={() => setFilterModalVisible(true)}
+          >
+            <Ionicons name="filter" size={20} color="#6366f1" />
+          </TouchableOpacity>
         </View>
+
         <Modal
           animationType="slide"
           transparent={true}

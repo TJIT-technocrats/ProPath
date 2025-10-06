@@ -1,193 +1,3 @@
-// import React, { useState } from "react";
-// import {
-//   View,
-//   Text,
-//   TextInput,
-//   Alert,
-//   Pressable,
-//   KeyboardAvoidingView,
-//   ScrollView,
-//   ActivityIndicator,
-// } from "react-native";
-// import { supabase } from "@/lib/supabaseClient";
-// import { useRouter } from "expo-router";
-
-// type Props = {};
-
-// export default function AuthScreen({}: Props) {
-//   const [mode, setMode] = useState<"login" | "signup">("login");
-//   const [abcNumber, setAbcNumber] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [name, setName] = useState("");
-//   const [loading, setLoading] = useState(false);
-
-//   const router = useRouter();
-
-//   const normalizeBec = (input: string) =>
-//     ${input.trim().toLowerCase()}@tjit.com;
-
-//   async function ensureProfile(user: any, displayName?: string) {
-//     if (!user?.id) return;
-
-//     // Fetch existing profile
-//     const { data: existingProfile } = await supabase
-//       .from("users")
-//       .select("profile_completed")
-//       .eq("id", user.id)
-//       .single();
-
-//     const profile = {
-//       id: user.id,
-//       full_name: displayName ?? user.user_metadata?.full_name ?? null,
-//       email: user.email ?? null,
-//       profile_completed: existingProfile?.profile_completed ?? false, // keep existing value
-//     };
-
-//     await supabase.from("users").upsert([profile], { returning: "minimal" });
-//   }
-
-//   const handleLoginOrSignup = async () => {
-//     if (!abcNumber || !password || (mode === "signup" && !name)) {
-//       Alert.alert("Missing fields", "Please fill all required fields.");
-//       return;
-//     }
-
-//     setLoading(true);
-//     const email = normalizeBec(abcNumber);
-
-//     try {
-//       let user;
-//       if (mode === "signup") {
-//         const { data, error } = await supabase.auth.signUp({
-//           email,
-//           password,
-//           options: { data: { full_name: name } },
-//         });
-//         if (error) throw error;
-//         user = data?.user;
-//         if (user) await ensureProfile(user, name);
-//       } else {
-//         const { data, error } = await supabase.auth.signInWithPassword({
-//           email,
-//           password,
-//         });
-//         if (error) throw error;
-//         user = data?.user ?? (await supabase.auth.getUser()).data?.user;
-//         if (user) await ensureProfile(user);
-//       }
-
-//       const { data: profileData } = await supabase
-//         .from("users")
-//         .select("profile_completed")
-//         .eq("id", user.id)
-//         .single();
-
-//       if (!profileData?.profile_completed) {
-//         router.replace("/(profileSetup)");
-//       } else {
-//         router.replace("/(tabs)");
-//       }
-//     } catch (err: any) {
-//       Alert.alert(
-//         mode === "login" ? "Login Error" : "Signup Error",
-//         err.message ?? String(err)
-//       );
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-//       <ScrollView
-//         contentContainerStyle={{ flexGrow: 1 }}
-//         className="bg-gray-100"
-//       >
-//         <View className="flex-1 justify-center px-6">
-//           <View className="bg-white p-8 rounded-3xl shadow-lg">
-//             <Text className="text-2xl font-bold mb-2 text-[#2D2D2D]">
-//               Hi, Student!
-//             </Text>
-//             <Text className="text-lg mb-6">
-//               {mode === "login"
-//                 ? "Login to your account"
-//                 : "Create your account"}
-//             </Text>
-
-//             {mode === "signup" && (
-//               <>
-//                 <Text className="text-gray-600 mb-1">Name</Text>
-//                 <TextInput
-//                   placeholder="Enter your Name"
-//                   value={name}
-//                   onChangeText={setName}
-//                   className="bg-gray-100 p-4 rounded-xl mb-4"
-//                 />
-//               </>
-//             )}
-
-//             <Text className="text-gray-600 mb-1">BEC Number</Text>
-//             <TextInput
-//               placeholder="Enter your BEC Number"
-//               value={abcNumber}
-//               onChangeText={setAbcNumber}
-//               autoCapitalize="none"
-//               className="bg-gray-100 p-4 rounded-xl mb-4"
-//             />
-
-//             <Text className="text-gray-600 mb-1">Password</Text>
-//             <TextInput
-//               placeholder="Enter your password"
-//               secureTextEntry
-//               value={password}
-//               onChangeText={setPassword}
-//               className="bg-gray-100 p-4 rounded-xl mb-6"
-//             />
-
-//             <Pressable
-//               className="bg-purple-600 py-4 rounded-2xl mb-4"
-//               onPress={handleLoginOrSignup}
-//               disabled={loading}
-//             >
-//               {loading ? (
-//                 <ActivityIndicator color="white" />
-//               ) : (
-//                 <Text className="text-white text-center text-lg font-semibold">
-//                   {mode === "login" ? "Login" : "Signup"}
-//                 </Text>
-//               )}
-//             </Pressable>
-
-//             <Text className="text-center text-gray-500 text-sm">
-//               {mode === "login" ? (
-//                 <>
-//                   Don’t have an account?{" "}
-//                   <Text
-//                     onPress={() => setMode("signup")}
-//                     className="text-purple-600 font-semibold"
-//                   >
-//                     Sign Up
-//                   </Text>
-//                 </>
-//               ) : (
-//                 <>
-//                   Already have an account?{" "}
-//                   <Text
-//                     onPress={() => setMode("login")}
-//                     className="text-purple-600 font-semibold"
-//                   >
-//                     Login
-//                   </Text>
-//                 </>
-//               )}
-//             </Text>
-//           </View>
-//         </View>
-//       </ScrollView>
-//     </KeyboardAvoidingView>
-//   );
-// }
-
 import React, { useState } from "react";
 import {
   View,
@@ -199,19 +9,22 @@ import {
   ScrollView,
   ActivityIndicator,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
 
 type Props = {};
 
 export default function AuthScreen({}: Props) {
   const [mode, setMode] = useState<"login" | "signup">("login");
-  const [abcNumber, setAbcNumber] = useState("");
+  const [becNumber, setBecNumber] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // 👁️ State for password visibility
 
   const router = useRouter();
 
@@ -234,17 +47,17 @@ export default function AuthScreen({}: Props) {
       profile_completed: existingProfile?.profile_completed ?? false,
     };
 
-    await supabase.from("users").upsert([profile], { returning: "minimal" });
+    await supabase.from("users").upsert([profile]);
   }
 
   const handleLoginOrSignup = async () => {
-    if (!abcNumber || !password || (mode === "signup" && !name)) {
+    if (!becNumber || !password || (mode === "signup" && !name)) {
       Alert.alert("Missing fields", "Please fill all required fields.");
       return;
     }
 
     setLoading(true);
-    const email = normalizeBec(abcNumber);
+    const email = normalizeBec(becNumber);
 
     try {
       let user;
@@ -265,6 +78,12 @@ export default function AuthScreen({}: Props) {
         if (error) throw error;
         user = data?.user ?? (await supabase.auth.getUser()).data?.user;
         if (user) await ensureProfile(user);
+      }
+
+      if (!user) {
+        throw new Error(
+          "Authentication failed and user object is unexpectedly empty."
+        );
       }
 
       const { data: profileData } = await supabase
@@ -298,7 +117,7 @@ export default function AuthScreen({}: Props) {
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        {/* Gradient background */}
+        {/* Background Gradient */}
         <LinearGradient
           colors={["#C1AFFC", "#8B5CF6"]}
           start={{ x: 0, y: 0 }}
@@ -347,6 +166,7 @@ export default function AuthScreen({}: Props) {
               {mode === "login" ? "Login to your account" : "Create your account"}
             </Text>
 
+            {/* Name Field (Signup only) */}
             {mode === "signup" && (
               <>
                 <Text style={{ color: "#6b7280", marginBottom: 4, fontSize: 16 }}>Name</Text>
@@ -367,6 +187,7 @@ export default function AuthScreen({}: Props) {
               </>
             )}
 
+            {/* BEC Number */}
             <Text style={{ color: "#6b7280", marginBottom: 4, fontSize: 16 }}>BEC Number</Text>
             <TextInput
               style={{
@@ -379,28 +200,46 @@ export default function AuthScreen({}: Props) {
               }}
               placeholder="Enter your BEC Number"
               placeholderTextColor="#9ca3af"
-              value={abcNumber}
-              onChangeText={setAbcNumber}
+              value={becNumber}
+              onChangeText={setBecNumber}
               autoCapitalize="none"
             />
 
+            {/* Password with Eye Icon */}
             <Text style={{ color: "#6b7280", marginBottom: 4, fontSize: 16 }}>Password</Text>
-            <TextInput
+            <View
               style={{
                 backgroundColor: "#f3f4f6",
-                padding: 16,
                 borderRadius: 12,
                 marginBottom: 24,
-                fontSize: 16,
-                color: "#1f2937",
+                flexDirection: "row",
+                alignItems: "center",
+                paddingHorizontal: 16,
               }}
-              placeholder="Enter your password"
-              placeholderTextColor="#9ca3af"
-              secureTextEntry
-              value={password}
-              onChangeText={setPassword}
-            />
+            >
+              <TextInput
+                style={{
+                  flex: 1,
+                  paddingVertical: 16,
+                  fontSize: 16,
+                  color: "#1f2937",
+                }}
+                placeholder="Enter your password"
+                placeholderTextColor="#9ca3af"
+                secureTextEntry={!showPassword} // 👁️ Toggle visibility
+                value={password}
+                onChangeText={setPassword}
+              />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <Ionicons
+                  name={showPassword ? "eye-off-outline" : "eye-outline"}
+                  size={22}
+                  color="#6b7280"
+                />
+              </TouchableOpacity>
+            </View>
 
+            {/* Submit Button */}
             <Pressable
               style={{
                 backgroundColor: "#6366f1",
@@ -439,6 +278,7 @@ export default function AuthScreen({}: Props) {
               </View>
             </Pressable>
 
+            {/* Toggle Login / Signup */}
             {mode === "login" ? (
               <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 12 }}>
                 <Text style={{ textAlign: "center", color: "#6b7280", fontSize: 14 }}>

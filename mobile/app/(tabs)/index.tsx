@@ -64,26 +64,26 @@ const Index: React.FC = () => {
     getUserProfile();
   }, []);
 
-    const handleLogout = () => {
-    Alert.alert(
-      "Confirm Logout",
-      "Are you sure you want to log out?",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Yes",
-          onPress: async () => {
-            await supabase.auth.signOut();
-            router.replace("/");
-          },
-        },
-      ],
-      { cancelable: false }
-    );
-  };
+  const handleLogout = () => {
+    Alert.alert(
+      "Confirm Logout",
+      "Are you sure you want to log out?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: async () => {
+            await supabase.auth.signOut();
+            router.replace("/");
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
 
   return (
@@ -95,7 +95,7 @@ const Index: React.FC = () => {
   >
     <LinearGradient
       // These are the two colors you want to mix
-      colors={['#C1AFFC', '#8B5CF6']} 
+      colors={['#9B86F5', '#7260C1']} 
       // This defines the start and end points of the gradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
@@ -110,24 +110,27 @@ const Index: React.FC = () => {
     />
 
       {/* Header Section */}
-      <View style={{
-        paddingTop: 50,
-        paddingBottom: 20,
-        paddingHorizontal: 20,
-        borderRadius: 30,
-        backgroundColor: '#EDEFFF',
-      }}>
-        <View className="flex-row items-center justify-between">
-          <View className="flex-row items-center">
-            <View className="w-12 h-12 bg-purple-800 rounded-full mr-3 flex items-center justify-center">
-              <AntDesign name="user" size={24} color="white" />
-            </View>
-            <Text className="text-xl font-bold text-black">
-              {userName ? `Hey, ${userName}` : "Hey, Student"}
-            </Text>
-          </View>
-        </View>
+<View
+  style={{
+    paddingTop: 40,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    backgroundColor: '#E7DDFF',
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+  }}
+>
+  <View className="flex-row items-center justify-between">
+    <View className="flex-row items-center">
+      <View className="w-12 h-12 bg-purple-800  rounded-full mr-3 flex items-center justify-center">
+        <AntDesign name="user" size={24} color="white" />
       </View>
+      <Text className="text-xl font-bold text-purple-950">
+        {userName ? `Hey, ${userName}` : "Hey, Student"}
+      </Text>
+    </View>
+  </View>
+</View>
 
       {/* Quote Section */}
 <View style={{
@@ -149,14 +152,15 @@ const Index: React.FC = () => {
       Quote for the Day
     </Text>
   </View>
-  <Text 
-    className="text-black text-base leading-6" // Increased font size and line height
-    style={{
-      fontSize: 14, // You can also use this to control font size
-    }}
-  >
-    {`"${quotes.length > 0 && quotes[0].q}"`} - {quotes.length > 0 && quotes[0].a}
-  </Text>
+<Text 
+  className="text-black text-base leading-6"
+  style={{ fontSize: 14 }}
+>
+  {quotes.length > 0 
+    ? `"${quotes[0].q}" - ${quotes[0].a}` 
+    : "Loading quote..."}
+</Text>
+
 </View>
 
       {/* Stats Cards */}
@@ -199,20 +203,25 @@ const Index: React.FC = () => {
         </View>
       </View>
 
-      <View style={{
-        backgroundColor: '#ffffff', // White background for the main container
-        marginTop: 24,            // Adjust top margin as needed
-        marginBottom: 50,         // Ensure enough bottom space above the tab bar
-        borderRadius: 32,         // Rounded corners for the entire container
-        paddingVertical: 20,      // Vertical padding inside the container
-        paddingHorizontal: 16,    // Horizontal padding inside the container
-      }}>
+<View
+  style={{
+    backgroundColor: '#ffffff',
+    marginTop: 24,
+    marginBottom: 50,
+    borderTopLeftRadius: 32,    // Top-left corner
+    borderTopRightRadius: 32,   // Top-right corner
+    borderBottomLeftRadius: 0,  // Bottom-left corner
+    borderBottomRightRadius: 0, // Bottom-right corner
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+  }}
+>
         <View className="mb-2">
           <Text className="text-lg font-bold text-gray-800 mb-4">
             Attempted Aptitudes
           </Text>
           <View style={{
-            backgroundColor: '#D8DAFF',
+            backgroundColor: '#DFE9FB',
             borderRadius: 16, 
             padding: 8 
           }}>
@@ -244,22 +253,22 @@ const Index: React.FC = () => {
       </View>
 
       {/* Logout Button - Positioned as floating */}
-      <View className="absolute top-14 right-6">
-        <Pressable
-          onPress={handleLogout} // Calls the new handler function
-          style={{
-            backgroundColor: '#ffffff',
-            paddingHorizontal: 10,
-            paddingVertical: 10,
-            borderRadius: 20,
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: 50,
-            height: 50,
-          }}
-        >
-          <AntDesign name="logout" size={24} color="red" />
-        </Pressable>
+      <View className="absolute top-10 right-6">
+        <Pressable
+          onPress={handleLogout} // Calls the new handler function
+          style={{
+            backgroundColor: '#ffffff',
+            paddingHorizontal: 10,
+            paddingVertical: 10,
+            borderRadius: 25,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 50,
+            height: 50,
+          }}
+        >
+          <AntDesign name="logout" size={24} color="red" />
+        </Pressable>
       </View>
     </ScrollView>
   );
