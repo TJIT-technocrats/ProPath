@@ -11,16 +11,16 @@ import {
 } from "react-native";
 import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "expo-router";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign,MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
+
 
 export default function ProfileSetup() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [avatarUri, setAvatarUri] = useState<string | null>(null);
-
   const [userId, setUserId] = useState<string | null>(null);
 
   const [phone, setPhone] = useState("");
@@ -111,63 +111,17 @@ export default function ProfileSetup() {
     }
   };
 
-  // const uploadAvatar = async (uri: string) => {
-  //   if (!userId) return;
-
-  //   // Convert image to blob
-  //   const response = await fetch(uri);
-  //   const blob = await response.blob();
-
-  //   // Create a unique file name
-  //   const fileExt = uri.split(".").pop() || "jpg";
-  //   const fileName = ${userId}.${fileExt};
-  //   const filePath = ${fileName};
-
-  //   let { error } = await supabase.storage
-  //     .from("avatars")
-  //     .upload(filePath, blob, {
-  //       cacheControl: "3600",
-  //       upsert: true, // replaces old avatar if exists
-  //       contentType: blob.type,
-  //     });
-
-  //   if (error) {
-  //     Alert.alert("Upload Error", error.message);
-  //     return;
-  //   }
-
-  //   // If bucket is public, you can build the public URL:
-  //   const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
-  //   const publicUrl = data.publicUrl;
-
-  //   // Update your user profile row in DB with avatar URL
-  //   const { error: updateError } = await supabase
-  //     .from("users")
-  //     .update({ avatar_url: publicUrl })
-  //     .eq("id", userId);
-
-  //   if (updateError) {
-  //     Alert.alert("DB Update Error", updateError.message);
-  //   } else {
-  //     Alert.alert("Success", "Avatar uploaded successfully!");
-  //   }
-  // };
-
   const uploadAvatar = async (uri: string) => {
     if (!userId) return;
 
     try {
-      // Read file as a blob
-      const fileInfo = await FileSystem.getInfoAsync(uri, { size: true });
       const file = await FileSystem.readAsStringAsync(uri, {
-        encoding: FileSystem.EncodingType.Base64,
+        encoding: "base64",
       });
 
       const blob = new Blob(
         [Uint8Array.from(atob(file), (c) => c.charCodeAt(0))],
-        {
-          type: "image/jpeg",
-        }
+        { type: "image/jpeg" }
       );
 
       const fileExt = uri.split(".").pop() || "jpg";
@@ -196,11 +150,11 @@ export default function ProfileSetup() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-gray-100 p-6">
+    <ScrollView className="flex-1 p-6" style={{ backgroundColor: "#7260C1" }}>
       <View className="flex h-screen items-center justify-center">
-        {/* Header with Background and Icon */}
+        {/* Header */}
         <View className="items-center mb-6">
-          <View className="w-full h-32 bg-purple-500 rounded-b-3xl absolute -top-6"></View>
+          <View className="w-full h-32 rounded-b-3xl absolute -top-6" />
           <View className="bg-white p-4 rounded-full shadow-md -mt-16">
             <View className="w-24 h-24 rounded-full bg-purple-100 justify-center items-center">
               <AntDesign name="form" size={50} color="#6366F1" />
@@ -208,7 +162,7 @@ export default function ProfileSetup() {
           </View>
           <TouchableOpacity
             onPress={pickImage}
-            className="bg-purple-500 px-4 py-2 rounded-xl mb-4"
+            className="bg-blue-300 px-4 py-2 rounded-xl mb-4"
           >
             <Text className="text-white font-bold text-center">
               {avatarUri ? "Change Avatar" : "Upload Avatar"}
@@ -232,13 +186,18 @@ export default function ProfileSetup() {
           </Text>
         </View>
 
-        <View className="bg-white p-6 rounded-2xl shadow-md">
+        {/* Main content box */}
+        <View
+          className="p-6 rounded-2xl shadow-md w-full"
+          style={{ backgroundColor: "#DBDCFF" }}
+        >
+          {/* Step 1 */}
           {step === 1 && (
             <>
               <Text className="text-xl font-bold mb-4 text-gray-800">
-                Step 1: Contact & Department 📝
+                Step 1: Contact & Department
               </Text>
-              <View className="flex-row items-center mb-4 border border-gray-300 rounded-lg p-3">
+              <View className="flex-row items-center mb-4 border bg-gray-100 border-gray-300 rounded-lg p-3">
                 <AntDesign name="phone" size={20} color="#6B7280" />
                 <TextInput
                   placeholder="Phone"
@@ -246,51 +205,59 @@ export default function ProfileSetup() {
                   onChangeText={setPhone}
                   className="flex-1 ml-3 text-base text-gray-700"
                   keyboardType="phone-pad"
+                  style={{ outlineColor: "transparent" }} // removes black border
                 />
               </View>
-              <View className="flex-row items-center mb-4 border border-gray-300 rounded-lg p-3">
+              <View className="flex-row items-center mb-4 border bg-gray-100 border-gray-300 rounded-lg p-3">
                 <AntDesign name="book" size={20} color="#6B7280" />
                 <TextInput
                   placeholder="Department"
                   value={department}
                   onChangeText={setDepartment}
                   className="flex-1 ml-3 text-base text-gray-700"
+                  style={{ outlineColor: "transparent" }} // removes black border
                 />
               </View>
             </>
           )}
+
+          {/* Step 2 */}
           {step === 2 && (
             <>
               <Text className="text-xl font-bold mb-4 text-gray-800">
-                Step 2: Academic Info 🎓
+                Step 2: Academic Info
               </Text>
-              <View className="flex-row items-center mb-4 border border-gray-300 rounded-lg p-3">
+              <View className="flex-row items-center mb-4 border border-gray-300 bg-gray-100 rounded-lg p-3">
                 <AntDesign name="calendar" size={20} color="#6B7280" />
                 <TextInput
                   placeholder="Current Year"
                   value={currentYear}
                   onChangeText={setCurrentYear}
                   className="flex-1 ml-3 text-base text-gray-700"
+                  style={{ outlineColor: "transparent" }}
                 />
               </View>
-              <View className="flex-row items-center mb-4 border border-gray-300 rounded-lg p-3">
-                <AntDesign className="linechart" size={20} color="#6B7280" />
+              <View className="flex-row items-center mb-4 border border-gray-300 bg-gray-100 rounded-lg p-3">
+                <MaterialCommunityIcons name="chart-line" size={20} color="#6B7280" />
                 <TextInput
                   placeholder="CGPA"
                   value={cgpa}
                   onChangeText={setCgpa}
                   className="flex-1 ml-3 text-base text-gray-700"
                   keyboardType="numeric"
+                  style={{ outlineColor: "transparent" }}
                 />
               </View>
             </>
           )}
+
+          {/* Step 3 */}
           {step === 3 && (
             <>
               <Text className="text-xl font-bold mb-4 text-gray-800">
-                Step 3: Application & Objective 🎯
+                Step 3: Application & Objective
               </Text>
-              <View className="mb-4 border border-gray-300 rounded-lg p-3">
+              <View className="mb-4 border border-gray-300 bg-gray-100 rounded-lg p-3">
                 <Text className="text-gray-500 text-sm">Application</Text>
                 <TextInput
                   placeholder="Application"
@@ -298,9 +265,10 @@ export default function ProfileSetup() {
                   onChangeText={setApplication}
                   className="text-base text-gray-700"
                   multiline
+                  style={{ outlineColor: "transparent" }}
                 />
               </View>
-              <View className="mb-4 border border-gray-300 rounded-lg p-3">
+              <View className="mb-4 border border-gray-300 bg-gray-100 rounded-lg p-3">
                 <Text className="text-gray-500 text-sm">Objective</Text>
                 <TextInput
                   placeholder="Objective"
@@ -308,9 +276,10 @@ export default function ProfileSetup() {
                   onChangeText={setObjective}
                   className="text-base text-gray-700"
                   multiline
+                  style={{ outlineColor: "transparent" }}
                 />
               </View>
-              <View className="mb-4 border border-gray-300 rounded-lg p-3">
+              <View className="mb-4 border border-gray-300 bg-gray-100 rounded-lg p-3">
                 <Text className="text-gray-500 text-sm">
                   Skills (comma separated)
                 </Text>
@@ -320,34 +289,42 @@ export default function ProfileSetup() {
                   onChangeText={setSkills}
                   className="text-base text-gray-700"
                   multiline
+                  style={{ outlineColor: "transparent" }}
                 />
               </View>
             </>
           )}
+
+          {/* Step 4 - Fix box size */}
           {step === 4 && (
             <>
-              <Text className="text-xl font-bold mb-4 text-gray-800">
-                Step 4: Education 📖
+              <Text className="text-xl font-bold mb-2 text-gray-800">
+                Step 4: Education
               </Text>
-              <View className="mb-4 border border-gray-300 rounded-lg p-3">
-                <Text className="text-gray-500 text-sm">Education details</Text>
+              <View className="border border-gray-300 bg-gray-100 rounded-lg p-6 m-2 min-h-[160px]">
+                <Text className="text-gray-500 text-md mb-2">
+                  Education details
+                </Text>
                 <TextInput
                   placeholder="e.g., B.Tech in Computer Science, 2024"
                   value={education}
                   onChangeText={setEducation}
                   className="text-base text-gray-700"
                   multiline
+                  style={{ outlineColor: "transparent" }}
                 />
               </View>
             </>
           )}
+
+          {/* Step 5 */}
           {step === 5 && (
             <>
               <Text className="text-xl font-bold mb-4 text-gray-800">
-                Step 5: Projects & Certificates 🏆
+                Step 5: Projects & Certificates
               </Text>
-              <View className="mb-4 border border-gray-300 rounded-lg p-3">
-                <Text className="text-gray-500 text-sm">
+              <View className="mb-4 border border-gray-300 bg-gray-100 rounded-lg p-6">
+                <Text className="text-gray-500 text-sm mb-1">
                   Projects (comma separated)
                 </Text>
                 <TextInput
@@ -356,10 +333,11 @@ export default function ProfileSetup() {
                   onChangeText={setProjects}
                   className="text-base text-gray-700"
                   multiline
+                  style={{ outlineColor: "transparent" }}
                 />
               </View>
-              <View className="mb-4 border border-gray-300 rounded-lg p-3">
-                <Text className="text-gray-500 text-sm">
+              <View className="mb-4 border border-gray-300 bg-gray-100 rounded-lg p-6">
+                <Text className="text-gray-500 text-sm mb-1">
                   Certificates (comma separated)
                 </Text>
                 <TextInput
@@ -368,6 +346,7 @@ export default function ProfileSetup() {
                   onChangeText={setCertificates}
                   className="text-base text-gray-700"
                   multiline
+                  style={{ outlineColor: "transparent" }}
                 />
               </View>
             </>
@@ -375,28 +354,30 @@ export default function ProfileSetup() {
         </View>
 
         {/* Navigation Buttons */}
-        <View className="flex-row justify-between mt-6">
+        <View className="flex-row justify-between mt-6 items-center w-full">
           {step > 1 && (
-            <TouchableOpacity
-              onPress={handlePrevious}
-              className="flex-1 bg-gray-400 px-6 py-4 rounded-xl shadow-md mr-2"
-            >
-              <Text className="text-white font-bold text-center">Previous</Text>
-            </TouchableOpacity>
-          )}
           <TouchableOpacity
-            onPress={handleNext}
-            disabled={loading}
-            className={`flex-1 ${step > 1 ? "ml-2" : ""} bg-purple-500 px-6 py-4 rounded-xl shadow-md`}
+            activeOpacity={1}
+            onPress={handlePrevious}
+            className="flex-1 bg-gray-400 py-3 rounded-2xl shadow-md mr-2 items-center justify-center"
           >
-            {loading ? (
-              <ActivityIndicator color="white" />
-            ) : (
-              <Text className="text-white font-bold text-center">
-                {step === 5 ? "Finish" : "Next"}
-              </Text>
-            )}
+            <Text className="text-white font-bold text-center">Previous</Text>
           </TouchableOpacity>
+          )}
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={handleNext}
+          disabled={loading}
+          className={`flex-1 ${step > 1 ? "ml-2" : ""} bg-purple-500 py-3 rounded-2xl items-center justify-center`}
+        >
+          {loading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text className="text-white font-bold text-center">
+              {step === 5 ? "Finish" : "Next"}
+            </Text>
+          )}
+        </TouchableOpacity>
         </View>
       </View>
     </ScrollView>

@@ -1,12 +1,4 @@
-import {
-  ScrollView,
-  View,
-  Text,
-  TouchableOpacity,
-  Modal,
-  TextInput,
-  Switch,
-} from "react-native";
+import { ScrollView, View, Text, TouchableOpacity, Modal, TextInput, Switch} from "react-native";
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -43,22 +35,33 @@ const allSkills = [
 
 const Profile = () => {
   const [editContactModalVisible, setEditContactModalVisible] = useState(false);
-  const [editObjectiveModalVisible, setEditObjectiveModalVisible] =
-    useState(false);
+  const [editObjectiveModalVisible, setEditObjectiveModalVisible] = useState(false);
   const [editSkillsModalVisible, setEditSkillsModalVisible] = useState(false);
-  const [editEducationModalVisible, setEditEducationModalVisible] =
-    useState(false);
-  const [editProjectsModalVisible, setEditProjectsModalVisible] =
-    useState(false);
+  const [editEducationModalVisible, setEditEducationModalVisible] = useState(false);
+  const [editProjectsModalVisible, setEditProjectsModalVisible] = useState(false);
   const [editCertModalVisible, setEditCertModalVisible] = useState(false);
-
+  const [tempContact, setTempContact] = useState({ name, email, phone });
+  const [tempObjective, setTempObjective] = useState(objective);
+  const [tempEducation, setTempEducation] = useState([...education]);
+  const [tempSkills, setTempSkills] = useState([...skills]);
+  const [tempProjects, setTempProjects] = useState([...projects]);
+  const [tempCertifications, setTempCertifications] = useState([ ...certifications]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [projectSearchTerm, setProjectSearchTerm] = useState("");
+  const [projectSuggestions, setProjectSuggestions] = useState([]);
+  const [certSearchTerm, setCertSearchTerm] = useState("");
+  const [certSuggestions, setCertSuggestions] = useState([]);
+  const [editingEducationIndex, setEditingEducationIndex] = useState(null);
+  const [editingProjectIndex, setEditingProjectIndex] = useState(null);
+  const [editingCertIndex, setEditingCertIndex] = useState(null);
   const [name, setName] = useState("Yugitha B");
   const [email, setEmail] = useState("yugithabalaji@college.edu");
   const [phone, setPhone] = useState("+91 9876543210");
   const [objective, setObjective] = useState(
     "Aspiring software engineer eager to contribute to innovative projects with strong problem-solving and teamwork skills."
   );
-  const [education, setEducation] = useState([
+    const [education, setEducation] = useState([
     {
       level: "10th",
       institution: "Sri Chaitanya Techno School",
@@ -128,26 +131,6 @@ const Profile = () => {
     },
   ]);
 
-  // temp copies for editing (we'll also push new blank objects into these when adding)
-  const [tempContact, setTempContact] = useState({ name, email, phone });
-  const [tempObjective, setTempObjective] = useState(objective);
-  const [tempEducation, setTempEducation] = useState([...education]);
-  const [tempSkills, setTempSkills] = useState([...skills]);
-  const [tempProjects, setTempProjects] = useState([...projects]);
-  const [tempCertifications, setTempCertifications] = useState([
-    ...certifications,
-  ]);
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const [projectSearchTerm, setProjectSearchTerm] = useState("");
-  const [projectSuggestions, setProjectSuggestions] = useState([]);
-  const [certSearchTerm, setCertSearchTerm] = useState("");
-  const [certSuggestions, setCertSuggestions] = useState([]);
-
-  const [editingEducationIndex, setEditingEducationIndex] = useState(null);
-  const [editingProjectIndex, setEditingProjectIndex] = useState(null);
-  const [editingCertIndex, setEditingCertIndex] = useState(null);
 
   const saveContact = () => {
     setName(tempContact.name);
